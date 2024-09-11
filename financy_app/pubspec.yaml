@@ -23,7 +23,8 @@ flutter:
 
   # Correctly indented assets section
   assets:
-
+    - assets/images/unifagoc_logo_verde.png
+    - assets/images/woman.png
     - assets/fonts/Quicksand-Regular.ttf
     - assets/images/unifagoc_logo.png
     - assets/images/man.png
