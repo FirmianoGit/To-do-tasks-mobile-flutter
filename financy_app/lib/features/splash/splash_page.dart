@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:financy_app/commom/constants/app_colors.dart';
-import 'package:financy_app/features/splash/Personalized/custom_route_animation.dart';
+import 'package:financy_app/commom/constants/app_custom_route_animation.dart';
 import 'package:financy_app/features/splash/Personalized/splash_title.dart';
+import 'package:financy_app/features/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
     Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        createRoute(), // Chama a função que cria a transição personalizada
+        createCustomRoute(page: const WelcomePage()), // Chama a função que cria a transição personalizada
       );
     });
   }

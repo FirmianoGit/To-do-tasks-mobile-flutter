@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false, // Evita que o layout ajuste com o teclado
-      backgroundColor: AppColors.greenWhite,
+      backgroundColor: AppColors.white,
       body: Column(
         children: [
           Expanded(
@@ -35,7 +35,7 @@ class LoginPage extends StatelessWidget {
                     Text(
                       'Entre com seus dados',
                       style: AppTextStyles.bigText.copyWith(
-                        color: AppColors.greenWhite,
+                        color: AppColors.white,
                         fontSize: screenWidth *
                             0.08, // Ajuste o tamanho da fonte proporcionalmente
                       ),

@@ -8,13 +8,13 @@ InputDecoration textFormFildDecoration(String? hint) {
     hintStyle: AppTextStyles.buttonText
         .copyWith(color: AppColors.greenLightTwo, fontSize: 18), // Label para o campo
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(15),
     ),
     filled: true,
-    fillColor: AppColors.greenWhite,
+    fillColor: AppColors.white,
     focusedBorder: OutlineInputBorder(
       // Define a borda quando o campo está focado
-      borderRadius: BorderRadius.circular(30.0),
+      borderRadius: BorderRadius.circular(15),
       borderSide: const BorderSide(
         color: AppColors.greenLightTwo, // Cor da borda quando focado
         width: 1.0,
@@ -22,7 +22,7 @@ InputDecoration textFormFildDecoration(String? hint) {
     ),
     enabledBorder: OutlineInputBorder(
       // Define a borda quando o campo está focado
-      borderRadius: BorderRadius.circular(30.0),
+      borderRadius: BorderRadius.circular(15.0),
       borderSide: const BorderSide(
         color: AppColors.greenLightTwo, // Cor da borda quando focado
         width: 1.0,

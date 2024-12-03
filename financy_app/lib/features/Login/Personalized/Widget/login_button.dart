@@ -10,14 +10,13 @@ class LoginButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => {},
       style: ElevatedButton.styleFrom(
+        foregroundColor: AppColors.greenLightTwo,
         padding: const EdgeInsets.all(12),
-        surfaceTintColor: AppColors.greenLightTwo,
-        backgroundColor: AppColors.greenWhite,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+        backgroundColor: AppColors.white,
+        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       ),
       child: Text(
-        'Continuar com e-mail',
+        'Continuar ',
         style: AppTextStyles.buttonText
             .copyWith(color: AppColors.greenLightTwo, fontSize: 18),
       ),
