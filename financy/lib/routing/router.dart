@@ -1,14 +1,14 @@
 import 'package:financy_app/routing/routes.dart';
 import 'package:financy_app/ui/LoginView/widget/login_screen.dart';
 import 'package:financy_app/ui/WelcomeView/welcome_page.dart';
-import 'package:financy_app/ui/core/Plugins/App_bottom_navigation_bar.dart';
+import 'package:financy_app/ui/core/widgets/App_scaffold.dart';
 import 'package:financy_app/ui/teste/teste.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
-const int _transitionDuration = 4000;
+const int _transitionDuration = 800;
 
 // GoRouter configuration
 final router = GoRouter(
@@ -20,7 +20,7 @@ final router = GoRouter(
       builder: (context, state) => const WelcomePage(),
     ),
     GoRoute(
-      path: '/login',
+      path: Routes.login,
       pageBuilder: (BuildContext context, GoRouterState state) {
         return CustomTransitionPage(
           key: state.pageKey,
@@ -37,7 +37,7 @@ final router = GoRouter(
     ),
     StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
-            TestScreen(navigationContainer: navigationShell),
+            ScaffoldScreen(navigationContainer: navigationShell),
         branches: [
           StatefulShellBranch(routes: [
             GoRoute(
