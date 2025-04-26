@@ -1,5 +1,5 @@
 
-import 'package:financy_app/ui/WelcomeView/welcome_page.dart';
+import 'package:financy_app/routing/router.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -7,9 +7,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
+    return MaterialApp.router(
+      routerConfig: router,
     );
   }
 } 
