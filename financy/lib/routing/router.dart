@@ -1,5 +1,6 @@
 import 'package:financy_app/routing/routes.dart';
 import 'package:financy_app/ui/LoginView/widget/login_screen.dart';
+import 'package:financy_app/ui/TasksView/widget/tasks_screen.dart';
 import 'package:financy_app/ui/WelcomeView/welcome_page.dart';
 import 'package:financy_app/ui/core/widgets/App_scaffold.dart';
 import 'package:financy_app/ui/teste/teste.dart';
@@ -13,7 +14,7 @@ const int _transitionDuration = 800;
 // GoRouter configuration
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: Routes.teste,
+  initialLocation: Routes.tasks,
   routes: [
     GoRoute(
       path: Routes.welcome,
@@ -36,61 +37,79 @@ final router = GoRouter(
       },
     ),
     StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) =>
-            ScaffoldScreen(navigationContainer: navigationShell),
-        branches: [
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: Routes.teste,
-              pageBuilder: (context, state) => CustomTransitionPage(
-                key: state.pageKey,
-                child: const RedScreen(),
-                transitionDuration: const Duration(milliseconds: _transitionDuration),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                },
-              ),
+      builder: (context, state, navigationShell) =>
+          ScaffoldScreen(navigationContainer: navigationShell),
+      branches: [
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: Routes.tasks,
+            pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: const TasksScreen(),
+              transitionDuration: const Duration(milliseconds: _transitionDuration),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                const begin = Offset(1.0, 0.0);
+                const end = Offset.zero;
+                const curve = Curves.ease;
+
+                final tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+
+                return SlideTransition(
+                  position: animation.drive(tween),
+                  child: child,
+                );
+              },
             ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: Routes.teste1,
-              pageBuilder: (context, state) => CustomTransitionPage(
-                key: state.pageKey,
-                child: const BlueScreen(),
-                transitionDuration: const Duration(milliseconds: _transitionDuration),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                },
-              ),
+          ),
+        ]),
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: Routes.teste1,
+            pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: const BlueScreen(),
+              transitionDuration: const Duration(milliseconds: _transitionDuration),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                const begin = Offset(1.0, 0.0);
+                const end = Offset.zero;
+                const curve = Curves.ease;
+
+                final tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+
+                return SlideTransition(
+                  position: animation.drive(tween),
+                  child: child,
+                );
+              },
             ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: Routes.teste2,
-              pageBuilder: (context, state) => CustomTransitionPage(
-                key: state.pageKey,
-                child: const GreenScreen(),
-                transitionDuration: const Duration(milliseconds: _transitionDuration),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                },
-              ),
+          ),
+        ]),
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: Routes.teste2,
+            pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              child: const GreenScreen(),
+              transitionDuration: const Duration(milliseconds: _transitionDuration),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                const begin = Offset(1.0, 0.0);
+                const end = Offset.zero;
+                const curve = Curves.ease;
+
+                final tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+
+                return SlideTransition(
+                  position: animation.drive(tween),
+                  child: child,
+                );
+              },
             ),
-          ]),
-          
-        ])
+          ),
+        ]),
+      ],
+    ),
   ],
 );

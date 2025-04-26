@@ -5,4 +5,6 @@ abstract final class Routes {
   static const teste = '/teste';
   static const teste1 = '/teste1';
   static const teste2 = '/teste2';
+  static const tasks = '/tasks';
+
 }
