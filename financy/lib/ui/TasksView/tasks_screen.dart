@@ -1,5 +1,6 @@
 import 'package:financy_app/ui/TasksView/widget/Tastks_filter/filter_row.dart';
 import 'package:financy_app/ui/TasksView/widget/order_menu_button.dart';
+import 'package:financy_app/ui/TasksView/widget/tasks_card.dart';
 import 'package:financy_app/ui/TasksView/widget/tasks_completed_widget.dart';
 import 'package:financy_app/ui/TasksView/widget/tasks_screen_top.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
@@ -53,41 +54,15 @@ class TasksScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF4F4F4),
-                      borderRadius: BorderRadius.circular(5)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Lavar o carro',
-                                  style: AppTextStyles.midText
-                                      .copyWith(fontSize: 18),
-                                ),
-                                Text(
-                                  '12/01/2022',
-                                  style: AppTextStyles.thinText.copyWith(
-                                      color: Colors.black, fontSize: 16),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text('Prioridade Alta', style: AppTextStyles.bigText.copyWith(fontSize: 19, color: Colors.red),),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
+                  TaskCard(
+                    titulo: 'Lavar o carro',
+                    data: '12/01/2022',
+                    prioridade: 'Prioridade Alta',
+                    corPrioridade: Colors.red,
+                    onTap: () {
+                      // TODO: lógica quando o card for clicado
+                    },
+                  ),
                 ],
               ),
             ),
