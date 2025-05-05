@@ -17,17 +17,17 @@ class TasksScreentop extends StatelessWidget {
       child: Column(children: [
         Padding(
           padding: EdgeInsets.only(
-              top: screenHeight * 0.05, left: screenHeight * 0.01),
+              top: screenHeight * 0.05),
           child: Text(
             'Boa tarde',
             style: AppTextStyles.thinText.copyWith(
               fontSize: 25,
-              color: Colors.grey,
+              color: Colors.black,
             ),
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: screenHeight * 0.045),
+          padding: EdgeInsets.only(left: 20),
           child: Text('João Vitor',
           style: AppTextStyles.bigText.copyWith(color: AppColors.greenLightTwo, fontSize: 30)),
         )

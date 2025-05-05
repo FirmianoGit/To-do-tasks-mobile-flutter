@@ -28,7 +28,7 @@ class Filtersrow extends StatelessWidget {
                   child: Text(
                     'Filtrar por:',
                     style: AppTextStyles.thinText.copyWith(
-                      color: Colors.grey,
+                      color: Colors.black,
                       fontSize: 20,
                     ),
                   ),

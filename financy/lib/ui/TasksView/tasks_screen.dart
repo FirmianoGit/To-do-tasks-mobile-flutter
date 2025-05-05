@@ -1,8 +1,9 @@
 import 'package:financy_app/ui/TasksView/widget/Tastks_filter/filter_row.dart';
-import 'package:financy_app/ui/TasksView/widget/Tastks_filter/selectable_task_button.dart';
+import 'package:financy_app/ui/TasksView/widget/order_menu_button.dart';
 import 'package:financy_app/ui/TasksView/widget/tasks_completed_widget.dart';
 import 'package:financy_app/ui/TasksView/widget/tasks_screen_top.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
+import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class TasksScreen extends StatelessWidget {
@@ -15,23 +16,85 @@ class TasksScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     final totalWidth = screenWidth * 0.9;
-    final spacing = 12.0; // espaçamento entre os botões
+    const spacing = 12.0; // espaçamento entre os botões
     final buttonWidth = (totalWidth - 2 * spacing) / 3;
 
     return Scaffold(
       body: Column(
         children: [
           TasksScreentop(screenHeight: screenHeight),
-          TasksCompletedWidget(screenHeight: screenHeight, screenWidth: screenWidth),
-          Filtersrow(totalWidth: totalWidth, buttonWidth: buttonWidth)
+          TasksCompletedWidget(
+              screenHeight: screenHeight, screenWidth: screenWidth),
+          Filtersrow(totalWidth: totalWidth, buttonWidth: buttonWidth),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Align(
+              alignment: Alignment.center,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Minhas Tarefas:',
+                        style: AppTextStyles.midText.copyWith(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      OrderMenuButton(
+                        onSelected: (value) {
+                          if (value == 'recentes') {
+                            // TODO: Fazer a logica que troca a listagem com base na ordenação desejada
+                          } else if (value == 'antigas') {
+                            // TODO: Fazer a logica que troca a listagem com base na ordenação desejada
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF4F4F4),
+                      borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Lavar o carro',
+                                  style: AppTextStyles.midText
+                                      .copyWith(fontSize: 18),
+                                ),
+                                Text(
+                                  '12/01/2022',
+                                  style: AppTextStyles.thinText.copyWith(
+                                      color: Colors.black, fontSize: 16),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('Prioridade Alta', style: AppTextStyles.bigText.copyWith(fontSize: 19, color: Colors.red),),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       ),
       backgroundColor: AppColors.white,
     );
   }
 }
-
-
-
-
-
