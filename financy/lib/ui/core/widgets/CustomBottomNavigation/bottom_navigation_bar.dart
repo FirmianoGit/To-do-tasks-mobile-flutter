@@ -26,11 +26,22 @@ class CustomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70, // Altura da barra inferior
-      color: AppColors.white, // Cor de fundo da barra
-      padding: const EdgeInsets.symmetric(horizontal: 70), // Espaçamento lateral
+      height: 70, // Altura da barra inferior // Cor de fundo da barra
+      padding:
+          const EdgeInsets.symmetric(horizontal: 70), // Espaçamento lateral
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1), // Cor da sombra
+          spreadRadius: 5, // Expansão
+          blurRadius: 8, // Desfoque
+          offset: const Offset(0, 5), // Posição da sombra (x, y)
+        ),
+      ]),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Distribui os ícones igualmente
+        mainAxisAlignment:
+            MainAxisAlignment.spaceBetween, // Distribui os ícones igualmente
         children: List.generate(icons.length, (index) {
           // Verifica se o item atual está selecionado
           final bool isSelected = index == selectedIndex;
@@ -39,12 +50,16 @@ class CustomNavBar extends StatelessWidget {
             // Chama o callback com o índice quando o item é tocado
             onTap: () => onItemTapped(index),
             child: Stack(
-              alignment: Alignment.center, // Alinha elementos sobrepostos ao centro
+              alignment:
+                  Alignment.center, // Alinha elementos sobrepostos ao centro
               children: [
                 // Círculo de fundo que aparece somente quando o item está selecionado
                 AnimatedOpacity(
-                  opacity: isSelected ? 1.0 : 0.0, // Mostra ou oculta com transição suave
-                  duration: const Duration(milliseconds: 350), // Duração da animação
+                  opacity: isSelected
+                      ? 1.0
+                      : 0.0, // Mostra ou oculta com transição suave
+                  duration:
+                      const Duration(milliseconds: 350), // Duração da animação
                   child: Container(
                     width: 50,
                     height: 50,

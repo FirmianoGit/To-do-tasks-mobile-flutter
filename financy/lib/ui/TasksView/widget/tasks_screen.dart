@@ -1,5 +1,6 @@
+import 'package:financy_app/ui/TasksView/widget/tasks_completed_widget.dart';
+import 'package:financy_app/ui/TasksView/widget/tasks_screen_top.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
-import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class TasksScreen extends StatelessWidget {
@@ -7,32 +8,18 @@ class TasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Fazer toda a página Reativa e com estado 
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Column(children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  top: screenHeight * 0.05, left: screenHeight * 0.01),
-              child: Text(
-                'Boa tarde',
-                style: AppTextStyles.thinText.copyWith(
-                  fontSize: 25,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: screenHeight * 0.05),
-              child: Text('Joao Vitor',
-              style: AppTextStyles.bigText.copyWith(color: AppColors.greenLightTwo, fontSize: 30)),
-            )
-          ]),
-        )
-      ],
+    return Scaffold(
+      body: Column(
+        children: [
+          TasksScreentop(screenHeight: screenHeight),
+          TasksCompletedWidget(
+              screenHeight: screenHeight, screenWidth: screenWidth)
+        ],
+      ),
+      backgroundColor: AppColors.white,
     );
   }
 }

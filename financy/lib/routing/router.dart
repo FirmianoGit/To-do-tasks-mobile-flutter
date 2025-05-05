@@ -46,17 +46,13 @@ final router = GoRouter(
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
               child: const TasksScreen(),
-              transitionDuration: const Duration(milliseconds: _transitionDuration),
-              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                const begin = Offset(1.0, 0.0);
-                const end = Offset.zero;
-                const curve = Curves.ease;
-
-                final tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-
-                return SlideTransition(
-                  position: animation.drive(tween),
+              transitionDuration:
+                  const Duration(milliseconds: _transitionDuration),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: CurveTween(curve: Curves.easeInOutCirc)
+                      .animate(animation),
                   child: child,
                 );
               },
@@ -69,17 +65,13 @@ final router = GoRouter(
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
               child: const BlueScreen(),
-              transitionDuration: const Duration(milliseconds: _transitionDuration),
-              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                const begin = Offset(1.0, 0.0);
-                const end = Offset.zero;
-                const curve = Curves.ease;
-
-                final tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-
-                return SlideTransition(
-                  position: animation.drive(tween),
+              transitionDuration:
+                  const Duration(milliseconds: _transitionDuration),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: CurveTween(curve: Curves.easeInOutCirc)
+                      .animate(animation),
                   child: child,
                 );
               },
@@ -92,17 +84,13 @@ final router = GoRouter(
             pageBuilder: (context, state) => CustomTransitionPage(
               key: state.pageKey,
               child: const GreenScreen(),
-              transitionDuration: const Duration(milliseconds: _transitionDuration),
-              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                const begin = Offset(1.0, 0.0);
-                const end = Offset.zero;
-                const curve = Curves.ease;
-
-                final tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-
-                return SlideTransition(
-                  position: animation.drive(tween),
+              transitionDuration:
+                  const Duration(milliseconds: _transitionDuration),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: CurveTween(curve: Curves.easeInOutCirc)
+                      .animate(animation),
                   child: child,
                 );
               },
