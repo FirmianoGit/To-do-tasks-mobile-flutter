@@ -45,7 +45,7 @@ class _SelectableTaskButtonState extends State<SelectableTaskButton> {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: isSelected ? AppColors.green : AppColors.greenLightTwo,
+          color: isSelected ? AppColors.green : Colors.grey,
           boxShadow: [
             BoxShadow(
               color: AppColors.green.withAlpha(25), // ~10% de opacidade
