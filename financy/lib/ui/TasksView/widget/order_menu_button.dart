@@ -14,6 +14,7 @@ class OrderMenuButton extends StatelessWidget {
       onSelected: onSelected,
       color: AppColors.white,
       borderRadius: BorderRadius.circular(15),
+      position: PopupMenuPosition.under,
       itemBuilder: (BuildContext context) => [
          PopupMenuItem<String>(
           value: 'recentes',
