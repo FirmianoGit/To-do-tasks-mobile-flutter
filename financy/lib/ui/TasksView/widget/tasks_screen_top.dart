@@ -9,29 +9,37 @@ class TasksScreentop extends StatelessWidget {
   });
 
   final double screenHeight;
-
+//TODO: mudar o nome do usuário para o nome do usuário logado
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topLeft,
-      child: Column(children: [
-        Padding(
-          padding: EdgeInsets.only(
-              top: screenHeight * 0.05),
-          child: Text(
-            'Boa tarde',
-            style: AppTextStyles.thinText.copyWith(
-              fontSize: 25,
-              color: Colors.black,
-            ),
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: screenHeight * 0.05,
+          left: 0,
+        ),
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Boa tarde ',
+                style: AppTextStyles.thinText.copyWith(
+                  fontSize: 25,
+                  color: Colors.black,
+                ),
+              ),
+              TextSpan(
+                text: 'João Vitor',
+                style: AppTextStyles.bigText.copyWith(
+                  color: AppColors.greenLightTwo,
+                  fontSize: 25,
+                ),
+              ),
+            ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Text('João Vitor',
-          style: AppTextStyles.bigText.copyWith(color: AppColors.greenLightTwo, fontSize: 30)),
-        )
-      ]),
+      ),
     );
   }
 }

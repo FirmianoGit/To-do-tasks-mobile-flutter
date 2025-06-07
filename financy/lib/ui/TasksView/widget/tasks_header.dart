@@ -13,24 +13,22 @@ class TasksHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          child: Row(
-            children: [
-              Text(
-                'Minhas Tarefas:',
-                style: AppTextStyles.midText.copyWith(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w500,
-                ),
+        Row(
+          children: [
+            Text(
+              'Minhas Tarefas:',
+              style: AppTextStyles.midText.copyWith(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.w500,
               ),
-              OrderMenuButton(
-                onSelected: (value) {
-                  // TODO: lógica de ordenação
-                },
-              ),
-            ],
-          ),
+            ),
+            OrderMenuButton(
+              onSelected: (value) {
+                // TODO: lógica de ordenação
+              },
+            ),
+          ],
         ),
         Padding(
           padding: const EdgeInsets.only(right: 5),
