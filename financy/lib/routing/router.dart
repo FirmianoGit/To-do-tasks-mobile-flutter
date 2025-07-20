@@ -2,7 +2,7 @@ import 'package:financy_app/routing/routes.dart';
 import 'package:financy_app/ui/LoginView/widget/login_screen.dart';
 import 'package:financy_app/ui/TasksView/tasks_screen.dart';
 import 'package:financy_app/ui/WelcomeView/welcome_page.dart';
-import 'package:financy_app/ui/core/widgets/App_scaffold.dart';
+import 'package:financy_app/ui/core/widgets/app_scaffold.dart';
 import 'package:financy_app/ui/teste/teste.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

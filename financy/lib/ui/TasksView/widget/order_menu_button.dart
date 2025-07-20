@@ -14,6 +14,7 @@ class OrderMenuButton extends StatelessWidget {
       onSelected: onSelected,
       color: AppColors.white,
       borderRadius: BorderRadius.circular(15),
+      position: PopupMenuPosition.under,
       itemBuilder: (BuildContext context) => [
          PopupMenuItem<String>(
           value: 'recentes',
@@ -22,6 +23,18 @@ class OrderMenuButton extends StatelessWidget {
         PopupMenuItem<String>(
           value: 'antigas',
           child: Text('Mais antigas', style: AppTextStyles.midText.copyWith(fontSize: 15)),
+        ),
+        PopupMenuItem<String>(
+          value: 'Prioridade alta',
+          child: Text('Prioridade Alta', style: AppTextStyles.midText.copyWith(fontSize: 15)),
+        ),
+        PopupMenuItem<String>(
+          value: 'Prioridade média',
+          child: Text('Prioridade média', style: AppTextStyles.midText.copyWith(fontSize: 15)),
+        ),
+        PopupMenuItem<String>(
+          value: 'Prioridade baixa',
+          child: Text('Prioridade baixa', style: AppTextStyles.midText.copyWith(fontSize: 15)),
         ),
       ],
     );
