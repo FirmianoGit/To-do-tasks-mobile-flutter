@@ -1,9 +1,10 @@
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
-import 'package:financy_app/ui/LoginView/widget/Widget/login_button.dart';
-import 'package:financy_app/ui/LoginView/widget/Widget/login_form.dart';
+import 'package:financy_app/ui/LoginView/widget/Widget/login_form_section.dart';
 import 'package:financy_app/ui/LoginView/widget/Widget/main_container.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:financy_app/ui/LoginView/view_model/login_view_model.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -43,8 +44,10 @@ class LoginPage extends StatelessWidget {
                     SizedBox(
                         height: screenHeight *
                             0.03),
-                    const LoginForm(),
-                    const LoginButton(),
+                    ChangeNotifierProvider(
+                      create: (_) => LoginViewModel(),
+                      child: const LoginFormSection(),
+                    ),
                   ],
                 ),
               ),

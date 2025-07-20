@@ -7,19 +7,25 @@ import 'package:financy_app/ui/teste/teste.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+// Chave global para o Navigator principal da aplicação.
+// Isso permite controlar a navegação globalmente, útil para navegação fora do contexto de widgets.
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
+// Duração padrão das transições de página (em milissegundos).
 const int _transitionDuration = 800;
 
-// GoRouter configuration
+// Configuração do GoRouter, responsável por gerenciar as rotas da aplicação.
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: Routes.tasks,
+  // Define a rota inicial ao abrir o app.
+  initialLocation: Routes.welcome,
   routes: [
+    // Rota para a tela de boas-vindas.
     GoRoute(
       path: Routes.welcome,
       builder: (context, state) => const WelcomePage(),
     ),
+    // Rota para a tela de login, com transição customizada (fade).
     GoRoute(
       path: Routes.login,
       pageBuilder: (BuildContext context, GoRouterState state) {
@@ -36,10 +42,14 @@ final router = GoRouter(
         );
       },
     ),
+    // Rota principal com navegação em abas (StatefulShellRoute).
+    // Cada aba é um branch, e cada branch pode ter suas próprias rotas.
     StatefulShellRoute.indexedStack(
+      // Widget que recebe o navigationShell para controlar a navegação entre as abas.
       builder: (context, state, navigationShell) =>
           ScaffoldScreen(navigationContainer: navigationShell),
       branches: [
+        // Primeira aba: Tarefas
         StatefulShellBranch(routes: [
           GoRoute(
             path: Routes.tasks,
@@ -59,6 +69,7 @@ final router = GoRouter(
             ),
           ),
         ]),
+        // Segunda aba: Tela de teste azul
         StatefulShellBranch(routes: [
           GoRoute(
             path: Routes.teste1,
@@ -78,6 +89,7 @@ final router = GoRouter(
             ),
           ),
         ]),
+        // Terceira aba: Tela de teste verde
         StatefulShellBranch(routes: [
           GoRoute(
             path: Routes.teste2,

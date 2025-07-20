@@ -14,7 +14,6 @@ class WelcomeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        //print('Container clicado!');
       },
       borderRadius: BorderRadius.circular(10), // Garante que o efeito de toque siga o contorno
       highlightColor:
