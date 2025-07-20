@@ -40,6 +40,7 @@ class TaskListView extends StatelessWidget {
                   task: tarefa,
                   onTap: () {
                     debugPrint('Tarefa ${tarefa.taskId} selecionada');
+                    debugPrint('${tarefa.toJson()}');
                   },
                 ),
               );

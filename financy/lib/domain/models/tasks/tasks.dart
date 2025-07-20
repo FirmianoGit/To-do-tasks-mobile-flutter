@@ -4,7 +4,7 @@ part 'tasks.freezed.dart'; // mesmo prefixo do nome do arquivo
 part 'tasks.g.dart';
 
 @freezed
-class Task with _$Task {
+abstract class Task with _$Task {
   const factory Task({
     required int taskId,
     required String titulo,
@@ -17,6 +17,4 @@ class Task with _$Task {
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
