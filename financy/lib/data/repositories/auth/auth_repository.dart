@@ -16,10 +16,7 @@ class AuthRepository {
     required String senha,
   }) async {
     try {
-      final response = await _apiClient.login({
-        'email': email,
-        'senha': senha,
-      });
+      final response = await _apiClient.login(email, senha);
 
       // Valida se a resposta está no formato esperado
       final data = response.data;
@@ -32,7 +29,7 @@ class AuthRepository {
       if (token == null || token is! String || token.isEmpty) {
         throw Exception('Token JWT não encontrado na resposta.');
       }
-      _apiClient.setJwtToken(token);
+      _apiClient.setJwt(token);
 
       // Pega os dados do usuário do campo 'usuario'
       final userJson = data['usuario'];
@@ -75,7 +72,7 @@ class AuthRepository {
 
   /// Permite definir manualmente o token JWT (caso necessário).
   void setJwtToken(String token) {
-    _apiClient.setJwtToken(token);
+    _apiClient.setJwt(token);
   }
 }
 

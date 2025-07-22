@@ -48,67 +48,75 @@ class ApiClient {
   bool _isAuthFreeEndpoint(String path, {String method = 'GET'}) {
     // '/login' (ou '/auth') é sempre livre de autenticação.
     // '/usuarios' só é livre de autenticação no método POST (criação de usuário).
-    if (path.contains('/auth') || path.contains('/login')) {
+    if (path.contains('/auth')) {
       return true;
     }
-    if (path.contains('/usuarios') && method.toUpperCase() == 'POST') {
+    if (path.contains('/users') && method.toUpperCase() == 'POST') {
       return true;
     }
     return false;
   }
 
-  /// Salva o token JWT após o login bem-sucedido.
-  void setJwtToken(String token) {
-    _jwtToken = token;
+  /// Define o token JWT para autenticação nas requisições.
+  void setJwt(String token) {
+    _dio.options.headers['Authorization'] = 'Bearer $token';
   }
-
-  // ============================
-  // Métodos de exemplo para requisições
-  // ============================
 
   /// Realiza o login do usuário.
-  /// [data] deve conter as credenciais necessárias (ex: email e senha).
-  Future<Response> login(Map<String, dynamic> data) async {
-    return await _dio.post('/auth', data: data);
+  Future<Response> login(String email, String senha) async {
+    return await postRequisicao('/auth', dados: {'email': email, 'senha': senha});
   }
 
-  /// Cria um novo usuário.
-  /// [data] deve conter os dados do novo usuário.
-  Future<Response> criarUsuario(Map<String, dynamic> data) async {
-    return await _dio.post('/usuarios', data: data);
+  /// Requisição GET genérica.
+  Future<Response> getRequisicao(String caminho, {Map<String, dynamic>? parametrosConsulta}) async {
+    return await _dio.get(caminho, queryParameters: parametrosConsulta);
   }
 
-
-  //faça uma requisição que busca todas as tarefas do usuário logado
-  /// Busca todas as tarefas do usuário logado pelo seu ID.
-  /// [userId] é o identificador do usuário.
-  Future<Response> buscarTarefasPorUsuario(String userId) async {
-    final String url = '${_dio.options.baseUrl}/tasks/$userId';
-    return await _dio.get(url);
+  /// Requisição POST genérica.
+  Future<Response> postRequisicao(String caminho, {dynamic dados}) async {
+    return await _dio.post(caminho, data: dados);
   }
 
-  /// Realiza uma requisição GET para o [path] informado.
-  /// [queryParameters] pode ser utilizado para passar parâmetros de consulta.
-  Future<Response> get(String path,
-      {Map<String, dynamic>? queryParameters}) async {
-    return await _dio.get(path, queryParameters: queryParameters);
+  /// Requisição PUT genérica.
+  Future<Response> putRequisicao(String caminho, {dynamic dados}) async {
+    return await _dio.put(caminho, data: dados);
   }
 
-  /// Realiza uma requisição POST para o [path] informado.
-  /// [data] pode ser utilizado para enviar o corpo da requisição.
-  Future<Response> post(String path, {dynamic data}) async {
-    return await _dio.post(path, data: data);
+  /// Requisição DELETE genérica.
+  Future<Response> deleteRequisicao(String caminho, {dynamic dados}) async {
+    return await _dio.delete(caminho, data: dados);
   }
 
-  /// Realiza uma requisição PUT para o [path] informado.
-  /// [data] pode ser utilizado para enviar o corpo da requisição.
-  Future<Response> put(String path, {dynamic data}) async {
-    return await _dio.put(path, data: data);
+  /// Criação de tarefa. Retorna a tarefa criada.
+  Future<Response> criarTarefa(Map<String, dynamic> dadosTarefa) async {
+    return await postRequisicao('/tasks', dados: dadosTarefa);
   }
 
-  /// Realiza uma requisição DELETE para o [path] informado.
-  /// [data] pode ser utilizado para enviar o corpo da requisição (caso necessário).
-  Future<Response> delete(String path, {dynamic data}) async {
-    return await _dio.delete(path, data: data);
+  /// Listagem paginada de tarefas do usuário autenticado. Retorna lista e total.
+  Future<Response> listarTarefas({int pagina = 1, int limite = 10}) async {
+    return await getRequisicao('/tasks', parametrosConsulta: {
+      'page': pagina,
+      'limit': limite,
+    });
+  }
+
+  /// Busca tarefa por ID.
+  Future<Response> buscarTarefaPorId(int id) async {
+    return await getRequisicao('/tasks/ $id');
+  }
+
+  /// Atualização de tarefa por ID. Retorna a tarefa atualizada.
+  Future<Response> atualizarTarefa(int id, Map<String, dynamic> dadosAtualizados) async {
+    return await putRequisicao('/tasks/ $id', dados: dadosAtualizados);
+  }
+
+  /// Remoção de tarefa por ID. Retorna confirmação.
+  Future<Response> removerTarefa(int id) async {
+    return await deleteRequisicao('/tasks/ $id');
+  }
+
+  /// Criação de usuário. Retorna o usuário criado.
+  Future<Response> criarUsuario(Map<String, dynamic> dadosUsuario) async {
+    return await postRequisicao('/users', dados: dadosUsuario);
   }
 }

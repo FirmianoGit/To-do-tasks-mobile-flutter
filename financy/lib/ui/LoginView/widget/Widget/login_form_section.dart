@@ -77,7 +77,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                     );
                   } else {
                     // Após login validado, navegue para a tela de tasks sem precisar passar o user id
-                    //context.go(Routes.tasks);
+                    context.go(Routes.tasks);
                   }
                 }
               },
