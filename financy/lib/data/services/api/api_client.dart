@@ -78,6 +78,15 @@ class ApiClient {
     return await _dio.post('/usuarios', data: data);
   }
 
+
+  //faça uma requisição que busca todas as tarefas do usuário logado
+  /// Busca todas as tarefas do usuário logado pelo seu ID.
+  /// [userId] é o identificador do usuário.
+  Future<Response> buscarTarefasPorUsuario(String userId) async {
+    final String url = '${_dio.options.baseUrl}/tasks/$userId';
+    return await _dio.get(url);
+  }
+
   /// Realiza uma requisição GET para o [path] informado.
   /// [queryParameters] pode ser utilizado para passar parâmetros de consulta.
   Future<Response> get(String path,

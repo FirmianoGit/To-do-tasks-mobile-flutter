@@ -1,4 +1,6 @@
+import 'package:financy_app/routing/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:financy_app/ui/LoginView/view_model/login_view_model.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
@@ -67,13 +69,15 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                   final senha = _senhaController.text;
 
                   final sucesso = await loginViewModel.login(email: email, senha: senha);
+                  if (!mounted) return;
                   print(sucesso);
                   if (!sucesso) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(loginViewModel.errorMessage ?? 'Erro ao fazer login')),
                     );
                   } else {
-                    // Aqui você pode navegar para outra tela ou executar outra ação após o login bem-sucedido
+                    // Após login validado, navegue para a tela de tasks sem precisar passar o user id
+                    //context.go(Routes.tasks);
                   }
                 }
               },
