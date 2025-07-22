@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:financy_app/data/repositories/auth/auth_repository.dart';
 import 'package:financy_app/domain/models/users/users.dart';
+import 'package:financy_app/data/repositories/auth/auth_repository_interface.dart';
 
 /// ViewModel responsável pela lógica de autenticação da tela de login.
 /// Utiliza [ChangeNotifier] para notificar a UI sobre mudanças de estado,
@@ -10,7 +11,7 @@ import 'package:financy_app/domain/models/users/users.dart';
 /// a mudanças de estado, facilitando a implementação do padrão MVVM no Flutter.
 /// Assim, widgets podem escutar este ViewModel e reconstruir apenas quando necessário.
 class LoginViewModel extends ChangeNotifier {
-  final AuthRepository _authRepository;
+  final IAuthRepository _authRepository;
 
   /// Indica se uma operação de login está em andamento.
   bool _isLoading = false;
@@ -22,7 +23,7 @@ class LoginViewModel extends ChangeNotifier {
   User? _user;
 
   /// Construtor recebe opcionalmente um [AuthRepository] (útil para testes).
-  LoginViewModel({AuthRepository? authRepository})
+  LoginViewModel({IAuthRepository? authRepository})
       : _authRepository = authRepository ?? AuthRepository();
 
   /// Getter para saber se está carregando.
@@ -76,4 +77,3 @@ class LoginViewModel extends ChangeNotifier {
     _setErrorMessage(null);
   }
 }
-
