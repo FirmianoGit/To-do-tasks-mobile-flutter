@@ -39,8 +39,6 @@ class TaskListView extends StatelessWidget {
                 child: TaskCard(
                   task: tarefa,
                   onTap: () {
-                    debugPrint('Tarefa ${tarefa.taskId} selecionada');
-                    debugPrint('${tarefa.toJson()}');
                   },
                 ),
               );

@@ -3,20 +3,17 @@ import 'package:financy_app/ui/LoginView/widget/Class/bottom_rounded_clipper.dar
 import 'package:flutter/material.dart';
 
 Widget buildTopSection({required Widget child}) {
-    return Expanded(
-      flex: 85,
-      child: Stack(
-        children: [
-          _buildShadow(),
-          _buildMainContainer(),
-          Positioned.fill(
-            child: Align(
-              alignment: Alignment.center,
-              child: child,
-            ),
+    return Stack(
+      children: [
+        _buildShadow(),
+        _buildMainContainer(),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.center,
+            child: child,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

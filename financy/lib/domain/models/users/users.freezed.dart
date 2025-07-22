@@ -18,8 +18,6 @@ mixin _$User {
   int get id;
   String get email;
   String get nomeUsuario;
-  String get senha;
-  List<Task> get tarefas;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -39,19 +37,16 @@ mixin _$User {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.nomeUsuario, nomeUsuario) ||
-                other.nomeUsuario == nomeUsuario) &&
-            (identical(other.senha, senha) || other.senha == senha) &&
-            const DeepCollectionEquality().equals(other.tarefas, tarefas));
+                other.nomeUsuario == nomeUsuario));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, email, nomeUsuario, senha,
-      const DeepCollectionEquality().hash(tarefas));
+  int get hashCode => Object.hash(runtimeType, id, email, nomeUsuario);
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, nomeUsuario: $nomeUsuario, senha: $senha, tarefas: $tarefas)';
+    return 'User(id: $id, email: $email, nomeUsuario: $nomeUsuario)';
   }
 }
 
@@ -60,12 +55,7 @@ abstract mixin class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) _then) =
       _$UserCopyWithImpl;
   @useResult
-  $Res call(
-      {int id,
-      String email,
-      String nomeUsuario,
-      String senha,
-      List<Task> tarefas});
+  $Res call({int id, String email, String nomeUsuario});
 }
 
 /// @nodoc
@@ -83,8 +73,6 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? id = null,
     Object? email = null,
     Object? nomeUsuario = null,
-    Object? senha = null,
-    Object? tarefas = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -99,14 +87,6 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _self.nomeUsuario
           : nomeUsuario // ignore: cast_nullable_to_non_nullable
               as String,
-      senha: null == senha
-          ? _self.senha
-          : senha // ignore: cast_nullable_to_non_nullable
-              as String,
-      tarefas: null == tarefas
-          ? _self.tarefas
-          : tarefas // ignore: cast_nullable_to_non_nullable
-              as List<Task>,
     ));
   }
 }
@@ -115,12 +95,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
 @JsonSerializable()
 class _User implements User {
   const _User(
-      {required this.id,
-      required this.email,
-      required this.nomeUsuario,
-      required this.senha,
-      required final List<Task> tarefas})
-      : _tarefas = tarefas;
+      {required this.id, required this.email, required this.nomeUsuario});
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   @override
@@ -129,15 +104,6 @@ class _User implements User {
   final String email;
   @override
   final String nomeUsuario;
-  @override
-  final String senha;
-  final List<Task> _tarefas;
-  @override
-  List<Task> get tarefas {
-    if (_tarefas is EqualUnmodifiableListView) return _tarefas;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tarefas);
-  }
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -162,19 +128,16 @@ class _User implements User {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.nomeUsuario, nomeUsuario) ||
-                other.nomeUsuario == nomeUsuario) &&
-            (identical(other.senha, senha) || other.senha == senha) &&
-            const DeepCollectionEquality().equals(other._tarefas, _tarefas));
+                other.nomeUsuario == nomeUsuario));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, email, nomeUsuario, senha,
-      const DeepCollectionEquality().hash(_tarefas));
+  int get hashCode => Object.hash(runtimeType, id, email, nomeUsuario);
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, nomeUsuario: $nomeUsuario, senha: $senha, tarefas: $tarefas)';
+    return 'User(id: $id, email: $email, nomeUsuario: $nomeUsuario)';
   }
 }
 
@@ -184,12 +147,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$UserCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {int id,
-      String email,
-      String nomeUsuario,
-      String senha,
-      List<Task> tarefas});
+  $Res call({int id, String email, String nomeUsuario});
 }
 
 /// @nodoc
@@ -207,8 +165,6 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
     Object? id = null,
     Object? email = null,
     Object? nomeUsuario = null,
-    Object? senha = null,
-    Object? tarefas = null,
   }) {
     return _then(_User(
       id: null == id
@@ -223,14 +179,6 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
           ? _self.nomeUsuario
           : nomeUsuario // ignore: cast_nullable_to_non_nullable
               as String,
-      senha: null == senha
-          ? _self.senha
-          : senha // ignore: cast_nullable_to_non_nullable
-              as String,
-      tarefas: null == tarefas
-          ? _self._tarefas
-          : tarefas // ignore: cast_nullable_to_non_nullable
-              as List<Task>,
     ));
   }
 }
