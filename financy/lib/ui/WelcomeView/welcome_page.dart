@@ -50,7 +50,7 @@ class WelcomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const WelcomeText(),
-                  SizedBox(height: screenHeight * 0.02),
+                  SizedBox(height: screenHeight * 0.03),
                   WelcomeButton(screenWidth: screenWidth),
                   SizedBox(height: screenHeight * 0.01),
                   Row(
@@ -64,6 +64,7 @@ class WelcomePage extends StatelessWidget {
                       const FacaLoginButton(),
                     ],
                   ),
+                  SizedBox(height: screenHeight * 0.05),
                 ],
               ),
             ),

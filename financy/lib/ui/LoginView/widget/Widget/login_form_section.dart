@@ -52,6 +52,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                     }
                     return null;
                   },
+                  obscureText: true,
                   style: AppTextStyles.thinText.copyWith(color: Colors.black),
                 ),
               ],
@@ -59,8 +60,8 @@ class _LoginFormSectionState extends State<LoginFormSection> {
           ),
           const SizedBox(height: 20),
           SizedBox(
-            width: screenWidth ,
-            child: ElevatedButton( 
+            width: screenWidth,
+            child: ElevatedButton(
               onPressed: () async {
                 final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
 
@@ -70,13 +71,11 @@ class _LoginFormSectionState extends State<LoginFormSection> {
 
                   final sucesso = await loginViewModel.login(email: email, senha: senha);
                   if (!mounted) return;
-                  print(sucesso);
                   if (!sucesso) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(loginViewModel.errorMessage ?? 'Erro ao fazer login')),
                     );
                   } else {
-                    // Após login validado, navegue para a tela de tasks sem precisar passar o user id
                     context.go(Routes.tasks);
                   }
                 }
@@ -86,11 +85,47 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                 padding: const EdgeInsets.all(12),
                 backgroundColor: AppColors.green,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                enableFeedback: true,
               ),
               child: Text(
-                'Continuar ',
+                'Continuar',
                 style: AppTextStyles.buttonText.copyWith(color: AppColors.white, fontSize: 18),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(child: Divider(color: Colors.grey[400])),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  'ou',
+                  style: AppTextStyles.thinText.copyWith(color: Colors.grey[600]),
+                ),
+              ),
+              Expanded(child: Divider(color: Colors.grey[400])),
+            ],
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: screenWidth,
+            child: OutlinedButton.icon(
+              onPressed: () {
+                // TODO: Adicione aqui a lógica para login com Google
+              },
+              icon: Image.asset(
+                'assets/images/google_logo.png',
+                height: 24,
+                width: 24,
+              ),
+              label: Text(
+                'Continuar com o Google',
+                style: AppTextStyles.buttonText.copyWith(color: Colors.black, fontSize: 16),
+              ),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.all(12),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                side: BorderSide(color: Colors.grey[400]!),
               ),
             ),
           ),
