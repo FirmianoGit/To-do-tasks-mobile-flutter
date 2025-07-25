@@ -12,9 +12,11 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final  double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
+    
+
 
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Evita que o layout ajuste com o teclado
+      resizeToAvoidBottomInset: true, // Evita que o layout ajuste com o teclado
       backgroundColor: AppColors.greenWhite,
       body: Center(
         child: SingleChildScrollView(
