@@ -1,3 +1,5 @@
+ //TODO: analisar remoção, não utilizado
+ 
  import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/LoginView/widget/Class/bottom_rounded_clipper.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,7 @@ Widget buildTopSection({required Widget child}) {
       child: PhysicalModel(
         color: Colors.transparent,
         elevation: 2,
-        shadowColor: AppColors.greenLightOne,
+        shadowColor: AppColors.greenWhite,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(50),
           bottomRight: Radius.circular(50),
@@ -38,7 +40,7 @@ Widget buildTopSection({required Widget child}) {
     return ClipPath(
       clipper: BottomRoundedClipper(),
       child: Container(
-        color: AppColors.greenLightOne,
+        color: AppColors.greenWhite,
       ),
     );
   }

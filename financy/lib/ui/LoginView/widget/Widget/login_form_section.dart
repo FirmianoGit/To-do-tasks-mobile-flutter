@@ -42,7 +42,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                   },
                   style: AppTextStyles.thinText.copyWith(color: Colors.black),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 8),
                 TextFormField(
                   controller: _senhaController,
                   decoration: textFormFildDecoration('Senha'),
@@ -59,7 +59,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
           ),
           const SizedBox(height: 20),
           SizedBox(
-            width: screenWidth * 0.8,
+            width: screenWidth ,
             child: ElevatedButton( 
               onPressed: () async {
                 final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
@@ -82,14 +82,15 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                foregroundColor: AppColors.greenLightTwo,
+                foregroundColor: AppColors.white,
                 padding: const EdgeInsets.all(12),
-                backgroundColor: AppColors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                backgroundColor: AppColors.green,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                enableFeedback: true,
               ),
               child: Text(
                 'Continuar ',
-                style: AppTextStyles.buttonText.copyWith(color: AppColors.greenLightTwo, fontSize: 18),
+                style: AppTextStyles.buttonText.copyWith(color: AppColors.white, fontSize: 18),
               ),
             ),
           ),
