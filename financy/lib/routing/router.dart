@@ -12,7 +12,7 @@ import 'package:go_router/go_router.dart';
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 // Duração padrão das transições de página (em milissegundos).
-const int _transitionDuration = 800;
+const int _transitionDuration = 400;
 
 // Configuração do GoRouter, responsável por gerenciar as rotas da aplicação.
 final router = GoRouter(
