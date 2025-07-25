@@ -27,14 +27,14 @@ class WelcomeButton extends StatelessWidget {
           color: AppColors.greenLightTwo,
           borderRadius: BorderRadius.circular(10),
         ),
-        height: screenHeight * 0.08, // altura responsiva (ex: 8% da tela)
+        height: screenHeight * 0.06, // altura responsiva (ex: 8% da tela)
         width: screenWidth * 0.85,
         child: Center(
           child: Text(
             'Vamos Começar',
             style: AppTextStyles.buttonText.copyWith(
               color: AppColors.white,
-              fontSize: responsiveFont(context, 18), // base de 18px
+              fontSize: responsiveFont(context, 16), // base de 18px
             ),
           ),
         ),
