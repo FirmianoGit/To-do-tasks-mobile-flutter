@@ -1,4 +1,5 @@
 import 'package:financy_app/routing/routes.dart';
+import 'package:financy_app/ui/core/utils/screen_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -72,9 +73,10 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                   final sucesso = await loginViewModel.login(email: email, senha: senha);
                   if (!mounted) return;
                   if (!sucesso) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(loginViewModel.errorMessage ?? 'Erro ao fazer login')),
-                    );
+                    showQuickErrorAlert(context: context, title: 'Erro', text: loginViewModel.errorMessage ?? 'Erro ao fazer login');
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   SnackBar(content: Text(loginViewModel.errorMessage ?? 'Erro ao fazer login')),
+                    // );
                   } else {
                     context.go(Routes.tasks);
                   }
