@@ -74,9 +74,6 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                   if (!mounted) return;
                   if (!sucesso) {
                     showQuickErrorAlert(context: context, title: 'Erro', text: loginViewModel.errorMessage ?? 'Erro ao fazer login');
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //   SnackBar(content: Text(loginViewModel.errorMessage ?? 'Erro ao fazer login')),
-                    // );
                   } else {
                     context.go(Routes.tasks);
                   }

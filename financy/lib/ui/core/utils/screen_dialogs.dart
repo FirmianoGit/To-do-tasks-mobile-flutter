@@ -1,3 +1,4 @@
+import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
 
@@ -15,5 +16,6 @@ void showQuickErrorAlert({
     text: text,
     confirmBtnText: confirmBtnText,
     onConfirmBtnTap: onConfirmBtnTap,
+    confirmBtnColor: AppColors.green,
   );
 }
