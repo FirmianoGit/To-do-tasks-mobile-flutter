@@ -12,61 +12,63 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
-    return MaterialApp(
-      home: Scaffold(
-        body: Column(children: [
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
           Expanded(
-            flex: 65,
+            flex: 6,
             child: ClipPath(
               clipper: InclinedClipper(),
               child: Container(
-                  width: double.infinity,
-                  color: AppColors.greenWhite,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Positioned(
-                        bottom: 30,
-                        child: Image.asset(
-                          'assets/images/man.png',
-                          width: 420,
-                          height: 420,
-                        ),
+                width: double.infinity,
+                color: AppColors.greenWhite,
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Positioned(
+                      bottom: screenHeight * 0.03,
+                      child: Image.asset(
+                        'assets/images/man.png',
+                        width: screenWidth * 0.7,
+                        height: screenHeight * 0.50,
+                        fit: BoxFit.contain,
                       ),
-                    ],
-                  )),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           Expanded(
-              flex: 35,
+            flex: 4,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const WelcomeText(),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: screenHeight * 0.02),
                   WelcomeButton(screenWidth: screenWidth),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: screenHeight * 0.01),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Já tem uma conta?',
-                        style: AppTextStyles.thinText
-                            .copyWith(color: Colors.black),
+                        style: AppTextStyles.thinText.copyWith(color: Colors.black),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const FacaLoginButton()
+                      const SizedBox(width: 8),
+                      const FacaLoginButton(),
                     ],
-                  )
+                  ),
                 ],
-              )),
-        ]),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
