@@ -1,4 +1,5 @@
 import 'package:financy_app/routing/routes.dart';
+import 'package:financy_app/ui/core/utils/screen_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -18,10 +19,12 @@ class _LoginFormSectionState extends State<LoginFormSection> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
+  bool _obscureTextSenha = true;
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Padding(
       padding: EdgeInsets.all(screenWidth * 0.05),
@@ -42,54 +45,134 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                   },
                   style: AppTextStyles.thinText.copyWith(color: Colors.black),
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: screenHeight * 0.005),
                 TextFormField(
                   controller: _senhaController,
-                  decoration: textFormFildDecoration('Senha'),
+                  decoration: textFormFildDecoration('Senha').copyWith(
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureTextSenha
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: AppColors.green,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureTextSenha = !_obscureTextSenha;
+                        });
+                      },
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                      splashColor: AppColors.greenLightTwo,
+                    ),
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira sua senha';
                     }
                     return null;
                   },
+                  obscureText: _obscureTextSenha,
                   style: AppTextStyles.thinText.copyWith(color: Colors.black),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          //SizedBox(height: screenHeight * 0.005),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                   //TODO: fazer a rota de navegação para a pagina que vai ser criada de recuperação de senha
+              },
+              child: Text(
+                'Esqueci minha senha',
+                style: AppTextStyles.thinText.copyWith(
+                  color: AppColors.green,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.green,
+                  
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: screenHeight * 0.005),
           SizedBox(
-            width: screenWidth * 0.8,
-            child: ElevatedButton( 
+            width: screenWidth,
+            child: ElevatedButton(
               onPressed: () async {
-                final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+                final loginViewModel =
+                    Provider.of<LoginViewModel>(context, listen: false);
 
                 if (_formKey.currentState?.validate() ?? false) {
                   final email = _emailController.text.trim();
                   final senha = _senhaController.text;
 
-                  final sucesso = await loginViewModel.login(email: email, senha: senha);
+                  final sucesso =
+                      await loginViewModel.login(email: email, senha: senha);
                   if (!mounted) return;
-                  print(sucesso);
                   if (!sucesso) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(loginViewModel.errorMessage ?? 'Erro ao fazer login')),
-                    );
+                    showQuickErrorAlert(
+                        context: context,
+                        title: 'Erro',
+                        text: loginViewModel.errorMessage ??
+                            'Erro ao fazer login');
                   } else {
-                    // Após login validado, navegue para a tela de tasks sem precisar passar o user id
                     context.go(Routes.tasks);
                   }
                 }
               },
               style: ElevatedButton.styleFrom(
-                foregroundColor: AppColors.greenLightTwo,
+                foregroundColor: AppColors.white,
                 padding: const EdgeInsets.all(12),
-                backgroundColor: AppColors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                backgroundColor: AppColors.green,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
               ),
               child: Text(
-                'Continuar ',
-                style: AppTextStyles.buttonText.copyWith(color: AppColors.greenLightTwo, fontSize: 18),
+                'Continuar',
+                style: AppTextStyles.buttonText
+                    .copyWith(color: AppColors.white, fontSize: 18),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(child: Divider(color: Colors.grey[400])),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  'ou',
+                  style:
+                      AppTextStyles.thinText.copyWith(color: Colors.grey[600]),
+                ),
+              ),
+              Expanded(child: Divider(color: Colors.grey[400])),
+            ],
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: screenWidth,
+            child: OutlinedButton.icon(
+              onPressed: () {
+                // TODO: Adicione aqui a lógica para login com Google
+              },
+              icon: Image.asset(
+                'assets/images/google_logo.png',
+                height: 24,
+                width: 24,
+              ),
+              label: Text(
+                'Continuar com o Google',
+                style: AppTextStyles.buttonText
+                    .copyWith(color: Colors.black, fontSize: 16),
+              ),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.all(12),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                side: BorderSide(color: Colors.grey[400]!),
               ),
             ),
           ),

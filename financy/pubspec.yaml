@@ -18,6 +18,8 @@ dependencies:
   dio: ^5.8.0+1
   provider: ^6.1.5
   shared_preferences: ^2.5.3
+  quickalert: ^1.1.0
+  loading_animation_widget: ^1.3.0
   
 dev_dependencies:
   flutter_launcher_icons: ^0.14.3
@@ -45,6 +47,7 @@ flutter:
   # Correctly indented assets section
   assets:
     - assets/images/unifagoc_logo_verde.png
+    - assets/images/google_logo.png
     - assets/images/woman.png
     - assets/fonts/Quicksand-Regular.ttf
     - assets/images/unifagoc_logo.png

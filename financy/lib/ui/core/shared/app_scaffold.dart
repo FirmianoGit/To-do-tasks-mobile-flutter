@@ -1,4 +1,4 @@
-import 'package:financy_app/ui/core/widgets/CustomBottomNavigation/bottom_navigation_bar.dart';
+import 'package:financy_app/ui/core/shared/CustomBottomNavigation/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

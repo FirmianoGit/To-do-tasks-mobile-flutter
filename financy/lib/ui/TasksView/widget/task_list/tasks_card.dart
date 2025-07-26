@@ -12,7 +12,6 @@ class TaskCard extends StatelessWidget {
     this.onTap,
   });
 
-  /// Retorna o texto correspondente à prioridade da tarefa
   String get prioridadeTexto {
     switch (task.prioridade) {
       case 1:
@@ -26,7 +25,6 @@ class TaskCard extends StatelessWidget {
     }
   }
 
-  /// Retorna a cor associada à prioridade da tarefa
   Color get corPrioridade {
     switch (task.prioridade) {
       case 1:
@@ -42,73 +40,82 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Fontes ajustadas proporcionalmente à largura da tela
+    final tituloFontSize = screenWidth * 0.045; // ~18 em 400px
+    final dataFontSize = screenWidth * 0.04;
+    final prioridadeLabelFontSize = screenWidth * 0.04;
+    final prioridadeValorFontSize = screenWidth * 0.045;
+
     return GestureDetector(
-      onTap: onTap, // Executa ação ao tocar no card (caso fornecida)
+      onTap: onTap,
       child: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
-          color: const Color(0xFFF4F4F4), // Cor de fundo do card
-          borderRadius: BorderRadius.circular(5), // Borda arredondada
+          color: const Color(0xFFF4F4F4),
+          borderRadius: BorderRadius.circular(5),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Coluna da esquerda (título e data)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Título limitado a um número de caracteres
-                    Text(
-                      _tituloLimitado(task.titulo),
-                      style: AppTextStyles.midText.copyWith(fontSize: 18),
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// Coluna da esquerda: título e data
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _tituloLimitado(task.titulo),
+                    style: AppTextStyles.midText.copyWith(
+                      fontSize: tituloFontSize,
                     ),
-                    // Data formatada (ex: 05/05/2025)
-                    Text(
-                      _formatarData(task.criadoEm),
-                      style: AppTextStyles.thinText.copyWith(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    )
-                  ],
-                ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    _formatarData(task.criadoEm),
+                    style: AppTextStyles.thinText.copyWith(
+                      color: Colors.black,
+                      fontSize: dataFontSize,
+                    ),
+                  ),
+                ],
               ),
-              // Coluna da direita (prioridade)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: [
-                    Text(
-                      'Prioridade:',
-                      style: AppTextStyles.midText.copyWith(fontSize: 16),
-                    ),
-                    Text(
-                      prioridadeTexto,
-                      style: AppTextStyles.bigText.copyWith(
-                        fontSize: 16,
-                        color: corPrioridade,
-                      ),
-                    ),
-                  ],
+            ),
+
+            const SizedBox(width: 10),
+
+            /// Coluna da direita: prioridade
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'Prioridade:',
+                  style: AppTextStyles.midText.copyWith(
+                    fontSize: prioridadeLabelFontSize,
+                  ),
                 ),
-              ),
-            ],
-          ),
+                Text(
+                  prioridadeTexto,
+                  style: AppTextStyles.bigText.copyWith(
+                    fontSize: prioridadeValorFontSize,
+                    color: corPrioridade,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 
-  /// Formata a data para o formato dd/MM/yyyy
   String _formatarData(DateTime data) {
     return '${data.day.toString().padLeft(2, '0')}/${data.month.toString().padLeft(2, '0')}/${data.year}';
   }
 
-  /// Limita o título a um número de caracteres e adiciona reticências, se necessário
-  String _tituloLimitado(String titulo, {int limite = 25}) {
+  String _tituloLimitado(String titulo, {int limite = 35}) {
     return titulo.length > limite ? '${titulo.substring(0, limite)}...' : titulo;
   }
 }

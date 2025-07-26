@@ -1,65 +1,67 @@
+import 'dart:ui';
+import 'package:financy_app/ui/LoginView/view_model/login_view_model.dart';
+import 'package:financy_app/ui/LoginView/widget/Widget/login_form_section.dart';
+import 'package:financy_app/ui/core/shared/Loading/loading_overlay.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
-import 'package:financy_app/ui/LoginView/widget/Widget/login_form_section.dart';
-import 'package:financy_app/ui/LoginView/widget/Widget/main_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:financy_app/ui/LoginView/view_model/login_view_model.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final  double screenHeight = MediaQuery.of(context).size.height;
+    return ChangeNotifierProvider(
+      create: (_) => LoginViewModel(),
+      child: const _LoginPageContent(),
+    );
+  }
+}
+
+class _LoginPageContent extends StatelessWidget {
+  const _LoginPageContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = context.watch<LoginViewModel>();
+
+    final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Evita que o layout ajuste com o teclado
-      backgroundColor: AppColors.white,
-      body: Column(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: AppColors.greenWhite,
+      body: Stack(
         children: [
-          Expanded(
-            flex: 70, // Ajuste a proporção conforme necessário
-            child: buildTopSection(
-              child: SingleChildScrollView(
-                child: Column(
-                  // Centraliza o conteúdo verticalmente
-                  children: [ // Ajuste o espaçamento acima do texto
-                    Image.asset(
-                      'assets/images/woman.png',
-                      height: screenHeight *
-                          0.3, // Ajuste a altura da imagem proporcionalmente
-                      width: screenWidth *
-                          0.6, // Ajuste a largura da imagem proporcionalmente
+          Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/woman.png',
+                    height: screenHeight * 0.3,
+                    width: screenWidth * 0.6,
+                  ),
+                  Text(
+                    'Bem Vindo de Volta!',
+                    style: AppTextStyles.bigText.copyWith(
+                      color: AppColors.green,
+                      fontSize: screenWidth * 0.08,
                     ),
-                    Text(
-                      'Bem Vindo de Volta!',
-                      style: AppTextStyles.bigText.copyWith(
-                        color: AppColors.white,
-                        fontSize: screenWidth *
-                            0.08, // Ajuste o tamanho da fonte proporcionalmente
-                      ),
-                    ),
-                    SizedBox(
-                        height: screenHeight *
-                            0.03),
-                    ChangeNotifierProvider(
-                      create: (_) => LoginViewModel(),
-                      child: const LoginFormSection(),
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: screenHeight * 0.03),
+                  const LoginFormSection(),
+                ],
               ),
             ),
           ),
-          Expanded(
-            flex: 20, // Ajuste a proporção conforme necessário
-            child:  Image.asset('assets/images/unifagoc_logo_verde.png',
-            height: screenHeight * 0.2,
-            width: screenWidth * 0.2,
-            ), // Espaço fixo no fundo
-          ),
+
+          // Overlay de loading com blur
+          if (viewModel.isLoading) ...[
+            LoadingOverlay(isLoading: viewModel.isLoading)
+          ]
         ],
       ),
     );

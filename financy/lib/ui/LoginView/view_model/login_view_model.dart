@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:financy_app/data/repositories/auth/auth_repository.dart';
 import 'package:financy_app/domain/models/users/users.dart';
-
+import 'package:financy_app/data/repositories/auth/auth_repository_interface.dart';
+import 'package:dio/dio.dart';
 /// ViewModel responsável pela lógica de autenticação da tela de login.
 /// Utiliza [ChangeNotifier] para notificar a UI sobre mudanças de estado,
 /// como carregamento, sucesso ou erro.
@@ -10,7 +11,7 @@ import 'package:financy_app/domain/models/users/users.dart';
 /// a mudanças de estado, facilitando a implementação do padrão MVVM no Flutter.
 /// Assim, widgets podem escutar este ViewModel e reconstruir apenas quando necessário.
 class LoginViewModel extends ChangeNotifier {
-  final AuthRepository _authRepository;
+  final IAuthRepository _authRepository;
 
   /// Indica se uma operação de login está em andamento.
   bool _isLoading = false;
@@ -22,7 +23,7 @@ class LoginViewModel extends ChangeNotifier {
   User? _user;
 
   /// Construtor recebe opcionalmente um [AuthRepository] (útil para testes).
-  LoginViewModel({AuthRepository? authRepository})
+  LoginViewModel({IAuthRepository? authRepository})
       : _authRepository = authRepository ?? AuthRepository();
 
   /// Getter para saber se está carregando.
@@ -39,25 +40,39 @@ class LoginViewModel extends ChangeNotifier {
   /// Retorna true se o login for bem-sucedido, false caso contrário.
   /// Realiza o login e armazena o usuário e o access_token.
   /// Retorna true se o login for bem-sucedido, false caso contrário.
-  Future<bool> login({required String email, required String senha}) async {
-    _setLoading(true);
-    _setErrorMessage(null);
-    try {
-      // Chama o repositório para autenticar o usuário.
-      final user = await _authRepository.login(email: email, senha: senha);
 
-      // O método login do AuthRepository SEMPRE retorna um User ou lança exceção.
-      // Portanto, não é necessário checar se user == null.
-      _user = user;
-      notifyListeners();
-      return true;
-    } catch (e) {
-      _setErrorMessage(e.toString());
-      return false;
-    } finally {
-      _setLoading(false);
+Future<bool> login({required String email, required String senha}) async {
+  _setLoading(true);
+  await Future.delayed(const Duration(seconds: 2));
+  _setErrorMessage(null);
+
+  try {
+    final user = await _authRepository.login(email: email, senha: senha);
+    _user = user;
+    notifyListeners();
+    return true;
+
+  } catch (e) {
+    String mensagemErro = 'Erro inesperado.';
+
+    if (e is DioException) {
+      if (e.response?.statusCode == 401) {
+        mensagemErro = 'Credenciais inválidas. Verifique seu e-mail e senha.';
+      } else {
+        mensagemErro = e.response?.data?['message']?.toString() ?? 'Erro na requisição.';
+      }
+    } else {
+      mensagemErro = e.toString();
     }
+
+    _setErrorMessage(mensagemErro);
+    return false;
+
+  } finally {
+    _setLoading(false);
   }
+}
+
 
   /// Atualiza o estado de carregamento e notifica a UI.
   void _setLoading(bool value) {
@@ -76,4 +91,3 @@ class LoginViewModel extends ChangeNotifier {
     _setErrorMessage(null);
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:financy_app/ui/core/theme/responsive_font.dart';
 import 'package:flutter/material.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
@@ -74,7 +75,7 @@ class _SelectableTaskButtonState extends State<SelectableTaskButton> {
           widget.label,
           style: AppTextStyles.midText.copyWith(
             color: AppColors.white,
-            fontSize: 13,
+            fontSize: responsiveFont(context, 13),
           ),
           textAlign: TextAlign.center,
         ),

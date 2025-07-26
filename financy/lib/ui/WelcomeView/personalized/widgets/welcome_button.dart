@@ -1,5 +1,6 @@
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
+import 'package:financy_app/ui/core/theme/responsive_font.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeButton extends StatelessWidget {
@@ -12,24 +13,29 @@ class WelcomeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return InkWell(
       onTap: () {
+        // Ação do botão
       },
-      borderRadius: BorderRadius.circular(10), // Garante que o efeito de toque siga o contorno
-      highlightColor:
-          Colors.white.withOpacity(0.2), // Cor de destaque ao pressionar
-      splashColor: Colors.white.withOpacity(0.3), // Cor do efeito de splash
+      borderRadius: BorderRadius.circular(10),
+      highlightColor: Colors.white.withOpacity(0.2),
+      splashColor: Colors.white.withOpacity(0.3),
       child: Ink(
         decoration: BoxDecoration(
-          color: AppColors.greenLightTwo, // Definindo a cor de fundo aqui
+          color: AppColors.greenLightTwo,
           borderRadius: BorderRadius.circular(10),
         ),
-        height: 64,
+        height: screenHeight * 0.06, // altura responsiva (ex: 8% da tela)
         width: screenWidth * 0.85,
         child: Center(
           child: Text(
             'Vamos Começar',
-            style: AppTextStyles.buttonText.copyWith(color: AppColors.white),
+            style: AppTextStyles.buttonText.copyWith(
+              color: AppColors.white,
+              fontSize: responsiveFont(context, 16), // base de 18px
+            ),
           ),
         ),
       ),
