@@ -5,8 +5,18 @@ import 'package:financy_app/data/services/local/local_storage.dart';
 import 'package:financy_app/domain/models/users/users.dart';
 
 /// Repositório responsável por isolar a lógica de autenticação da camada de dados.
+/// Mantém o estado do usuário logado e se está logado, acessível globalmente.
 class AuthRepository extends IAuthRepository {
   final ApiClient _apiClient;
+
+  User? _usuarioLogado;
+  bool _estaLogado = false;
+
+  /// Getter para acessar o usuário atualmente logado.
+  User? get usuarioLogado => _usuarioLogado;
+
+  /// Getter para saber se há um usuário logado.
+  bool get estaLogado => _estaLogado;
 
   // Permite injetar um ApiClient customizado (ex: para testes).
   // Caso não seja fornecido, instancia um por padrão.
@@ -18,6 +28,7 @@ class AuthRepository extends IAuthRepository {
   /// - Armazenamento do token JWT
   /// - Definição do token para próximas requisições
   /// - Conversão da resposta em um objeto User
+  /// - Atualização do estado de usuário logado
   @override
   Future<User> login({
     required String email,
@@ -43,11 +54,9 @@ class AuthRepository extends IAuthRepository {
       try {
         await JwtStorage.salvarJwt(token);
       } on Exception catch (e) {
-        // Tratamento específico para falhas comuns de persistência
         throw Exception(
             'Erro ao salvar o token JWT localmente: ${e.toString()}');
       } catch (e, stack) {
-        // Tratamento genérico com log de stack trace para debug
         print('Erro inesperado ao salvar o token JWT: $e\n$stack');
         throw ErroJWTException();
       }
@@ -71,9 +80,27 @@ class AuthRepository extends IAuthRepository {
       }
 
       // Converte o JSON em um modelo User
-      return User.fromJson(userJson);
+      final user = User.fromJson(userJson);
+
+      // Atualiza o estado interno de usuário logado
+      _usuarioLogado = user;
+      _estaLogado = true;
+      notifyListeners();
+
+      // Salva o usuário localmente para restauração de sessão futura
+      try {
+        await JwtStorage.salvarUsuario(user);
+      } catch (e, stack) {
+        print('Erro ao salvar usuário localmente: $e\n$stack');
+        // Não lança exceção, pois o login foi bem-sucedido, mas loga o erro
+      }
+
+      return user;
     } catch (e) {
-      // Propaga qualquer exceção para ser tratada pela camada superior
+      // Garante que o estado seja limpo em caso de erro
+      _usuarioLogado = null;
+      _estaLogado = false;
+      notifyListeners();
       rethrow;
     }
   }
@@ -102,7 +129,6 @@ class AuthRepository extends IAuthRepository {
       // Converte o JSON em um modelo User
       return User.fromJson(userJson);
     } catch (e) {
-      // Propaga erros para que a interface decida como lidar
       rethrow;
     }
   }
@@ -110,6 +136,7 @@ class AuthRepository extends IAuthRepository {
   /// Tenta restaurar a sessão do usuário a partir dos dados armazenados localmente.
   /// Define o token no ApiClient e retorna o User se for bem-sucedido.
   /// Caso os dados estejam corrompidos, inválidos ou incompletos, remove tudo e retorna null.
+  /// Atualiza o estado interno de usuário logado.
   @override
   Future<User?> restaurarSessao() async {
     try {
@@ -119,6 +146,9 @@ class AuthRepository extends IAuthRepository {
             '[AuthRepository] Token JWT ausente ou inválido na restauração de sessão.');
         await JwtStorage.removerJwt();
         await JwtStorage.removerUsuario();
+        _usuarioLogado = null;
+        _estaLogado = false;
+        notifyListeners();
         return null;
       }
 
@@ -128,6 +158,9 @@ class AuthRepository extends IAuthRepository {
             '[AuthRepository] Dados do usuário ausentes ou inválidos na restauração de sessão.');
         await JwtStorage.removerJwt();
         await JwtStorage.removerUsuario();
+        _usuarioLogado = null;
+        _estaLogado = false;
+        notifyListeners();
         return null;
       }
 
@@ -138,39 +171,61 @@ class AuthRepository extends IAuthRepository {
             '[AuthRepository] Erro ao definir o token JWT no ApiClient: $e\n$stack');
         await JwtStorage.removerJwt();
         await JwtStorage.removerUsuario();
+        _usuarioLogado = null;
+        _estaLogado = false;
+        notifyListeners();
         return null;
       }
 
+      _usuarioLogado = user;
+      _estaLogado = true;
+      notifyListeners();
       return user;
     } on FormatException catch (e, stack) {
       print(
           '[AuthRepository] Erro de formatação ao restaurar sessão: $e\n$stack');
       await JwtStorage.removerJwt();
       await JwtStorage.removerUsuario();
+      _usuarioLogado = null;
+      _estaLogado = false;
+      notifyListeners();
       return null;
     } on Exception catch (e, stack) {
       print('[AuthRepository] Erro conhecido ao restaurar sessão: $e\n$stack');
       await JwtStorage.removerJwt();
       await JwtStorage.removerUsuario();
+      _usuarioLogado = null;
+      _estaLogado = false;
+      notifyListeners();
       return null;
     } catch (e, stack) {
       print('[AuthRepository] Erro inesperado ao restaurar sessão: $e\n$stack');
       await JwtStorage.removerJwt();
       await JwtStorage.removerUsuario();
+      _usuarioLogado = null;
+      _estaLogado = false;
+      notifyListeners();
       return null;
     }
   }
 
   /// Permite injetar um token manualmente (por exemplo, em uma sessão restaurada).
+  /// Também tenta restaurar o usuário associado ao token, se possível.
   @override
   void setJwtToken(String token) {
     _apiClient.setJwt(token);
+    // Não altera o estado do usuário logado diretamente aqui,
+    // pois depende de restauração de sessão.
   }
 
- ///Permite que seja feito o Logout da aplicação. 
+  /// Permite que seja feito o Logout da aplicação.
+  /// Limpa o estado de usuário logado e notifica listeners.
   @override
   Future<void> logout() async {
     await JwtStorage.removerJwt();
     await JwtStorage.removerUsuario();
+    _usuarioLogado = null;
+    _estaLogado = false;
+    notifyListeners();
   }
 }

@@ -20,8 +20,6 @@ class LoginViewModel extends ChangeNotifier {
   /// Mensagem de erro a ser exibida na UI, caso ocorra alguma falha.
   String? _errorMessage;
 
-  /// Usuário autenticado após login bem-sucedido.
-  User? _user;
 
   /// Construtor recebe opcionalmente um [AuthRepository] (útil para testes).
   LoginViewModel({IAuthRepository? authRepository})
@@ -33,8 +31,6 @@ class LoginViewModel extends ChangeNotifier {
   /// Getter para mensagem de erro.
   String? get errorMessage => _errorMessage;
 
-  /// Getter para o usuário autenticado.
-  User? get user => _user;
 
   /// Realiza o login utilizando o [AuthRepository].
   /// Notifica listeners sobre mudanças de estado (carregando, erro, sucesso).
@@ -49,7 +45,6 @@ class LoginViewModel extends ChangeNotifier {
 
     try {
       final user = await _authRepository.login(email: email, senha: senha);
-      _user = user;
       notifyListeners();
       return true;
     } on UnauthorizedException catch (e) {

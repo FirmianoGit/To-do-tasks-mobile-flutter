@@ -17,5 +17,6 @@ void showQuickErrorAlert({
     confirmBtnText: confirmBtnText,
     onConfirmBtnTap: onConfirmBtnTap,
     confirmBtnColor: AppColors.green,
+    borderRadius: 10,
   );
 }
