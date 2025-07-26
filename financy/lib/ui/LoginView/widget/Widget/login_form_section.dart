@@ -24,6 +24,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Padding(
       padding: EdgeInsets.all(screenWidth * 0.05),
@@ -44,7 +45,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                   },
                   style: AppTextStyles.thinText.copyWith(color: Colors.black),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: screenHeight * 0.005),
                 TextFormField(
                   controller: _senhaController,
                   decoration: textFormFildDecoration('Senha').copyWith(
@@ -60,7 +61,9 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                           _obscureTextSenha = !_obscureTextSenha;
                         });
                       },
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                      splashColor: AppColors.greenLightTwo,
                     ),
                   ),
                   validator: (value) {
@@ -75,7 +78,25 @@ class _LoginFormSectionState extends State<LoginFormSection> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          //SizedBox(height: screenHeight * 0.005),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                   //TODO: fazer a rota de navegação para a pagina que vai ser criada de recuperação de senha
+              },
+              child: Text(
+                'Esqueci minha senha',
+                style: AppTextStyles.thinText.copyWith(
+                  color: AppColors.green,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.green,
+                  
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: screenHeight * 0.005),
           SizedBox(
             width: screenWidth,
             child: ElevatedButton(
