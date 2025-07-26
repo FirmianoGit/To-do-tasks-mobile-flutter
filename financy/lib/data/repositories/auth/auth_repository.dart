@@ -17,6 +17,7 @@ class AuthRepository extends IAuthRepository {
   /// - Armazenamento do token JWT
   /// - Definição do token para próximas requisições
   /// - Conversão da resposta em um objeto User
+  @override
   Future<User> login({
     required String email,
     required String senha,
@@ -77,6 +78,7 @@ class AuthRepository extends IAuthRepository {
   }
 
   /// Envia os dados do novo usuário para o backend e retorna o modelo User criado.
+  @override
   Future<User> registrar({
     required String email,
     required String nomeUsuario,
@@ -107,6 +109,7 @@ class AuthRepository extends IAuthRepository {
   /// Tenta restaurar a sessão do usuário a partir dos dados armazenados localmente.
   /// Define o token no ApiClient e retorna o User se for bem-sucedido.
   /// Caso os dados estejam corrompidos, inválidos ou incompletos, remove tudo e retorna null.
+  @override
   Future<User?> restaurarSessao() async {
     try {
       final token = await JwtStorage.obterJwt();
@@ -158,6 +161,7 @@ class AuthRepository extends IAuthRepository {
   }
 
   /// Permite injetar um token manualmente (por exemplo, em uma sessão restaurada).
+  @override
   void setJwtToken(String token) {
     _apiClient.setJwt(token);
   }
