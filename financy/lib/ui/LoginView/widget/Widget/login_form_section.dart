@@ -19,6 +19,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
+  bool _obscureTextSenha = true;
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +47,29 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _senhaController,
-                  decoration: textFormFildDecoration('Senha'),
+                  decoration: textFormFildDecoration('Senha').copyWith(
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureTextSenha
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: AppColors.green,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureTextSenha = !_obscureTextSenha;
+                        });
+                      },
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                    ),
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira sua senha';
                     }
                     return null;
                   },
-                  obscureText: true,
+                  obscureText: _obscureTextSenha,
                   style: AppTextStyles.thinText.copyWith(color: Colors.black),
                 ),
               ],
@@ -64,16 +80,22 @@ class _LoginFormSectionState extends State<LoginFormSection> {
             width: screenWidth,
             child: ElevatedButton(
               onPressed: () async {
-                final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+                final loginViewModel =
+                    Provider.of<LoginViewModel>(context, listen: false);
 
                 if (_formKey.currentState?.validate() ?? false) {
                   final email = _emailController.text.trim();
                   final senha = _senhaController.text;
 
-                  final sucesso = await loginViewModel.login(email: email, senha: senha);
+                  final sucesso =
+                      await loginViewModel.login(email: email, senha: senha);
                   if (!mounted) return;
                   if (!sucesso) {
-                    showQuickErrorAlert(context: context, title: 'Erro', text: loginViewModel.errorMessage ?? 'Erro ao fazer login');
+                    showQuickErrorAlert(
+                        context: context,
+                        title: 'Erro',
+                        text: loginViewModel.errorMessage ??
+                            'Erro ao fazer login');
                   } else {
                     context.go(Routes.tasks);
                   }
@@ -83,11 +105,13 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                 foregroundColor: AppColors.white,
                 padding: const EdgeInsets.all(12),
                 backgroundColor: AppColors.green,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
               ),
               child: Text(
                 'Continuar',
-                style: AppTextStyles.buttonText.copyWith(color: AppColors.white, fontSize: 18),
+                style: AppTextStyles.buttonText
+                    .copyWith(color: AppColors.white, fontSize: 18),
               ),
             ),
           ),
@@ -99,7 +123,8 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
                   'ou',
-                  style: AppTextStyles.thinText.copyWith(color: Colors.grey[600]),
+                  style:
+                      AppTextStyles.thinText.copyWith(color: Colors.grey[600]),
                 ),
               ),
               Expanded(child: Divider(color: Colors.grey[400])),
@@ -119,11 +144,13 @@ class _LoginFormSectionState extends State<LoginFormSection> {
               ),
               label: Text(
                 'Continuar com o Google',
-                style: AppTextStyles.buttonText.copyWith(color: Colors.black, fontSize: 16),
+                style: AppTextStyles.buttonText
+                    .copyWith(color: Colors.black, fontSize: 16),
               ),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.all(12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
                 side: BorderSide(color: Colors.grey[400]!),
               ),
             ),
