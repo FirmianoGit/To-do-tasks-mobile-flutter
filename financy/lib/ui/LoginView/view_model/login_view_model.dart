@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:financy_app/data/repositories/auth/auth_repository.dart';
 import 'package:financy_app/domain/models/users/users.dart';
 import 'package:financy_app/data/repositories/auth/auth_repository_interface.dart';
-import 'package:dio/dio.dart';
+import 'package:financy_app/core/exceptions/exceptions.dart';
+
 /// ViewModel responsável pela lógica de autenticação da tela de login.
 /// Utiliza [ChangeNotifier] para notificar a UI sobre mudanças de estado,
 /// como carregamento, sucesso ou erro.
@@ -41,38 +42,35 @@ class LoginViewModel extends ChangeNotifier {
   /// Realiza o login e armazena o usuário e o access_token.
   /// Retorna true se o login for bem-sucedido, false caso contrário.
 
-Future<bool> login({required String email, required String senha}) async {
-  _setLoading(true);
-  await Future.delayed(const Duration(seconds: 2));
-  _setErrorMessage(null);
+  Future<bool> login({required String email, required String senha}) async {
+    _setLoading(true);
+    await Future.delayed(const Duration(seconds: 2));
+    _setErrorMessage(null);
 
-  try {
-    final user = await _authRepository.login(email: email, senha: senha);
-    _user = user;
-    notifyListeners();
-    return true;
-
-  } catch (e) {
-    String mensagemErro = 'Erro inesperado.';
-
-    if (e is DioException) {
-      if (e.response?.statusCode == 401) {
-        mensagemErro = 'Credenciais inválidas. Verifique seu e-mail e senha.';
-      } else {
-        mensagemErro = e.response?.data?['message']?.toString() ?? 'Erro na requisição.';
-      }
-    } else {
-      mensagemErro = e.toString();
+    try {
+      final user = await _authRepository.login(email: email, senha: senha);
+      _user = user;
+      notifyListeners();
+      return true;
+    } on UnauthorizedException catch (e) {
+      _setErrorMessage('Credenciais inválidas. Verifique seu e-mail e senha.');
+      return false;
+    } on ErroServidorException catch (e) {
+      _setErrorMessage('Erro interno do servidor. Tente novamente mais tarde.');
+      return false;
+    } on ErroJWTException catch (e) {
+      _setErrorMessage('Problema com o token de autenticação. Tente novamente.');
+      return false;
+    } on ErroDesconhecidoException catch (e) {
+      _setErrorMessage('Erro inesperado no servidor');
+      return false;
+    } catch (e) {
+      _setErrorMessage('Erro inesperado: ${e.toString()}');
+      return false;
+    } finally {
+      _setLoading(false);
     }
-
-    _setErrorMessage(mensagemErro);
-    return false;
-
-  } finally {
-    _setLoading(false);
   }
-}
-
 
   /// Atualiza o estado de carregamento e notifica a UI.
   void _setLoading(bool value) {

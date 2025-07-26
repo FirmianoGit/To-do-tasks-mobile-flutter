@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:financy_app/core/exceptions/exceptions.dart';
 
-/// Cliente de API responsável por gerenciar as requisições HTTP.
-/// Utiliza o pacote Dio para facilitar as chamadas e o gerenciamento de autenticação JWT.
 class ApiClient {
   // Instância estática privada (singleton)
   static final ApiClient _instance = ApiClient._internal();
@@ -13,9 +12,6 @@ class ApiClient {
   String? _jwtToken;
 
   /// Construtor privado
-  // Sim, a porta deve estar na URL se o seu backend estiver rodando em uma porta diferente da padrão (80 para HTTP ou 443 para HTTPS).
-  // Por exemplo, se seu backend está rodando localmente na porta 3000, a URL deve ser 'http://localhost:3000'.
-  // Se estiver rodando na porta padrão (80 para HTTP), você pode omitir a porta: 'http://localhost'.
   ApiClient._internal() {
     _dio = Dio(BaseOptions(
       baseUrl: 'http://192.168.100.50:3000', // Mantenha a porta se necessário
@@ -46,8 +42,6 @@ class ApiClient {
   /// Retorne true para endpoints como login e criação de usuário.
   /// Ajuste conforme os endpoints da sua API.
   bool _isAuthFreeEndpoint(String path, {String method = 'GET'}) {
-    // '/login' (ou '/auth') é sempre livre de autenticação.
-    // '/usuarios' só é livre de autenticação no método POST (criação de usuário).
     if (path.contains('/auth')) {
       return true;
     }
@@ -64,27 +58,88 @@ class ApiClient {
 
   /// Realiza o login do usuário.
   Future<Response> login(String email, String senha) async {
-    return await postRequisicao('/auth', dados: {'email': email, 'senha': senha});
+    try {
+      final response = await postRequisicao('/auth', dados: {'email': email, 'senha': senha});
+      return response;
+    } on DioException catch (e) {
+      final mensagem = e.response?.data?['message']?.toString() ?? e.message ?? 'Erro desconhecido ao fazer login.';
+      if (e.response?.statusCode == 401) {
+        throw UnauthorizedException('Não autorizado: $mensagem');
+      } else if (e.response?.statusCode == 500) {
+        throw ErroServidorException('Erro interno do servidor: $mensagem');
+      } else if (e.response?.statusCode == 400) {
+        throw ErroDesconhecidoException('Requisição inválida: $mensagem');
+      }
+      throw ErroDesconhecidoException('Erro inesperado ao fazer login: $mensagem');
+    }
   }
 
   /// Requisição GET genérica.
   Future<Response> getRequisicao(String caminho, {Map<String, dynamic>? parametrosConsulta}) async {
-    return await _dio.get(caminho, queryParameters: parametrosConsulta);
+    try {
+      return await _dio.get(caminho, queryParameters: parametrosConsulta);
+    } on DioException catch (e) {
+      final mensagem = e.response?.data?['message']?.toString() ?? e.message ?? 'Erro desconhecido na requisição GET.';
+      if (e.response?.statusCode == 401) {
+        throw UnauthorizedException('Não autorizado: $mensagem');
+      } else if (e.response?.statusCode == 500) {
+        throw ErroServidorException('Erro interno do servidor: $mensagem');
+      } else if (e.response?.statusCode == 400) {
+        throw ErroDesconhecidoException('Requisição inválida: $mensagem');
+      }
+      throw ErroDesconhecidoException('Erro inesperado na requisição GET: $mensagem');
+    }
   }
 
   /// Requisição POST genérica.
   Future<Response> postRequisicao(String caminho, {dynamic dados}) async {
-    return await _dio.post(caminho, data: dados);
+    try {
+      return await _dio.post(caminho, data: dados);
+    } on DioException catch (e) {
+      final mensagem = e.response?.data?['message']?.toString() ?? e.message ?? 'Erro desconhecido na requisição POST.';
+      if (e.response?.statusCode == 401) {
+        throw UnauthorizedException('Não autorizado: $mensagem');
+      } else if (e.response?.statusCode == 500) {
+        throw ErroServidorException('Erro interno do servidor: $mensagem');
+      } else if (e.response?.statusCode == 400) {
+        throw ErroDesconhecidoException('Requisição inválida: $mensagem');
+      }
+      throw ErroDesconhecidoException('Erro inesperado na requisição POST: $mensagem');
+    }
   }
 
   /// Requisição PUT genérica.
   Future<Response> putRequisicao(String caminho, {dynamic dados}) async {
-    return await _dio.put(caminho, data: dados);
+    try {
+      return await _dio.put(caminho, data: dados);
+    } on DioException catch (e) {
+      final mensagem = e.response?.data?['message']?.toString() ?? e.message ?? 'Erro desconhecido na requisição PUT.';
+      if (e.response?.statusCode == 401) {
+        throw UnauthorizedException('Não autorizado: $mensagem');
+      } else if (e.response?.statusCode == 500) {
+        throw ErroServidorException('Erro interno do servidor: $mensagem');
+      } else if (e.response?.statusCode == 400) {
+        throw ErroDesconhecidoException('Requisição inválida: $mensagem');
+      }
+      throw ErroDesconhecidoException('Erro inesperado na requisição PUT: $mensagem');
+    }
   }
 
   /// Requisição DELETE genérica.
   Future<Response> deleteRequisicao(String caminho, {dynamic dados}) async {
-    return await _dio.delete(caminho, data: dados);
+    try {
+      return await _dio.delete(caminho, data: dados);
+    } on DioException catch (e) {
+      final mensagem = e.response?.data?['message']?.toString() ?? e.message ?? 'Erro desconhecido na requisição DELETE.';
+      if (e.response?.statusCode == 401) {
+        throw UnauthorizedException('Não autorizado: $mensagem');
+      } else if (e.response?.statusCode == 500) {
+        throw ErroServidorException('Erro interno do servidor: $mensagem');
+      } else if (e.response?.statusCode == 400) {
+        throw ErroDesconhecidoException('Requisição inválida: $mensagem');
+      }
+      throw ErroDesconhecidoException('Erro inesperado na requisição DELETE: $mensagem');
+    }
   }
 
   /// Criação de tarefa. Retorna a tarefa criada.

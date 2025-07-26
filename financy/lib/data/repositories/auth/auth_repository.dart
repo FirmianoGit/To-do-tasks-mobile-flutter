@@ -1,3 +1,4 @@
+import 'package:financy_app/core/exceptions/exceptions.dart';
 import 'package:financy_app/data/repositories/auth/auth_repository_interface.dart';
 import 'package:financy_app/data/services/api/api_client.dart';
 import 'package:financy_app/data/services/local/local_storage.dart';
@@ -35,7 +36,7 @@ class AuthRepository extends IAuthRepository {
       // Extrai o token JWT retornado
       final token = data['access_token'];
       if (token == null || token is! String || token.isEmpty) {
-        throw Exception('Token JWT não encontrado na resposta.');
+        throw ErroJWTException();
       }
 
       // Armazena o token localmente para persistência entre sessões
@@ -48,7 +49,7 @@ class AuthRepository extends IAuthRepository {
       } catch (e, stack) {
         // Tratamento genérico com log de stack trace para debug
         print('Erro inesperado ao salvar o token JWT: $e\n$stack');
-        throw Exception('Erro inesperado ao salvar o token JWT.');
+        throw ErroJWTException();
       }
 
       // Define o token no client para autenticar as próximas chamadas automaticamente
@@ -60,13 +61,13 @@ class AuthRepository extends IAuthRepository {
       } catch (e, stack) {
         print(
             'Erro inesperado ao definir o token JWT no ApiClient: $e\n$stack');
-        throw Exception('Erro inesperado ao definir o token JWT no ApiClient.');
+        throw ErroJWTException();
       }
 
       // Recupera os dados do usuário autenticado a partir da resposta
       final userJson = data['usuario'];
       if (userJson == null || userJson is! Map<String, dynamic>) {
-        throw Exception('Dados do usuário não encontrados na resposta.');
+        throw ErroServidorException();
       }
 
       // Converte o JSON em um modelo User
