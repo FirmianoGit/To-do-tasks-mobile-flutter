@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:financy_app/ui/LoginView/view_model/login_view_model.dart';
 import 'package:financy_app/ui/LoginView/widget/Widget/login_form_section.dart';
 import 'package:financy_app/ui/core/shared/Loading/loading_overlay.dart';
@@ -6,7 +5,6 @@ import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
