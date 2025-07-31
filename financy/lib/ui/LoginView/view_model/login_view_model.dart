@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:financy_app/data/repositories/auth/auth_repository.dart';
-import 'package:financy_app/domain/models/users/users.dart';
-import 'package:financy_app/data/repositories/auth/auth_repository_interface.dart';
 import 'package:financy_app/core/exceptions/exceptions.dart';
+import 'package:financy_app/data/repositories/auth/auth_repository.dart';
+import 'package:financy_app/data/repositories/auth/auth_repository_interface.dart';
+import 'package:flutter/material.dart';
 
 /// ViewModel responsável pela lógica de autenticação da tela de login.
 /// Utiliza [ChangeNotifier] para notificar a UI sobre mudanças de estado,
