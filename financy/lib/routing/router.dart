@@ -7,109 +7,84 @@ import 'package:financy_app/ui/teste/teste.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-// Chave global para o Navigator principal da aplicação.
-// Isso permite controlar a navegação globalmente, útil para navegação fora do contexto de widgets.
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+const int transitionDuration = 400;
 
-// Duração padrão das transições de página (em milissegundos).
-const int _transitionDuration = 400;
-
-// Configuração do GoRouter, responsável por gerenciar as rotas da aplicação.
-final router = GoRouter(
-  navigatorKey: _rootNavigatorKey,
-  // Define a rota inicial ao abrir o app.
-  initialLocation: Routes.welcome,
-  routes: [
-    // Rota para a tela de boas-vindas.
-    GoRoute(
-      path: Routes.welcome,
-      builder: (context, state) => const WelcomePage(),
-    ),
-    // Rota para a tela de login, com transição customizada (fade).
-    GoRoute(
-      path: Routes.login,
-      pageBuilder: (BuildContext context, GoRouterState state) {
-        return CustomTransitionPage(
+/// Cria o GoRouter com base na rota inicial
+GoRouter createRouter(String initialRoute) {
+  return GoRouter(
+    navigatorKey: rootNavigatorKey,
+    initialLocation: initialRoute,
+    routes: [
+      GoRoute(
+        path: Routes.welcome,
+        builder: (_, __) => const WelcomePage(),
+      ),
+      GoRoute(
+        path: Routes.login,
+        pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: const LoginPage(),
-          transitionDuration: const Duration(milliseconds: _transitionDuration),
+          transitionDuration: const Duration(milliseconds: transitionDuration),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
+            return FadeTransition(opacity: animation, child: child);
           },
-        );
-      },
-    ),
-    // Rota principal com navegação em abas (StatefulShellRoute).
-    // Cada aba é um branch, e cada branch pode ter suas próprias rotas.
-    StatefulShellRoute.indexedStack(
-      // Widget que recebe o navigationShell para controlar a navegação entre as abas.
-      builder: (context, state, navigationShell) =>
-          ScaffoldScreen(navigationContainer: navigationShell),
-      branches: [
-        // Primeira aba: Tarefas
-        StatefulShellBranch(routes: [
-          GoRoute(
-            path: Routes.tasks,
-            pageBuilder: (context, state) => CustomTransitionPage(
-              key: state.pageKey,
-              child: const TasksScreen(),
-              transitionDuration:
-                  const Duration(milliseconds: _transitionDuration),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return FadeTransition(
-                  opacity: CurveTween(curve: Curves.easeInOutCirc)
-                      .animate(animation),
-                  child: child,
-                );
-              },
+        ),
+      ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            ScaffoldScreen(navigationContainer: navigationShell),
+        branches: [
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: Routes.tasks,
+              pageBuilder: (context, state) => CustomTransitionPage(
+                key: state.pageKey,
+                child: const TasksScreen(),
+                transitionDuration: const Duration(milliseconds: transitionDuration),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+                    child: child,
+                  );
+                },
+              ),
             ),
-          ),
-        ]),
-        // Segunda aba: Tela de teste azul
-        StatefulShellBranch(routes: [
-          GoRoute(
-            path: Routes.teste1,
-            pageBuilder: (context, state) => CustomTransitionPage(
-              key: state.pageKey,
-              child: const BlueScreen(),
-              transitionDuration:
-                  const Duration(milliseconds: _transitionDuration),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return FadeTransition(
-                  opacity: CurveTween(curve: Curves.easeInOutCirc)
-                      .animate(animation),
-                  child: child,
-                );
-              },
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: Routes.teste1,
+              pageBuilder: (context, state) => CustomTransitionPage(
+                key: state.pageKey,
+                child: const BlueScreen(),
+                transitionDuration: const Duration(milliseconds: transitionDuration),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+                    child: child,
+                  );
+                },
+              ),
             ),
-          ),
-        ]),
-        // Terceira aba: Tela de teste verde
-        StatefulShellBranch(routes: [
-          GoRoute(
-            path: Routes.teste2,
-            pageBuilder: (context, state) => CustomTransitionPage(
-              key: state.pageKey,
-              child: const GreenScreen(),
-              transitionDuration:
-                  const Duration(milliseconds: _transitionDuration),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                return FadeTransition(
-                  opacity: CurveTween(curve: Curves.easeInOutCirc)
-                      .animate(animation),
-                  child: child,
-                );
-              },
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: Routes.teste2,
+              pageBuilder: (context, state) => CustomTransitionPage(
+                key: state.pageKey,
+                child: const GreenScreen(),
+                transitionDuration: const Duration(milliseconds: transitionDuration),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+                    child: child,
+                  );
+                },
+              ),
             ),
-          ),
-        ]),
-      ],
-    ),
-  ],
-);
+          ]),
+        ],
+      ),
+    ],
+  );
+}

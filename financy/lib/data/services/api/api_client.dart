@@ -14,7 +14,7 @@ class ApiClient {
   /// Construtor privado
   ApiClient._internal() {
     _dio = Dio(BaseOptions(
-      baseUrl: 'http://192.168.5.254:3000',//'http://192.168.100.50:3000', // Mantenha a porta se necessário
+      baseUrl: 'http://192.168.100.50:3000',//'http://192.168.100.50:3000', // Mantenha a porta se necessário
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
     ));

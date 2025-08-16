@@ -52,7 +52,7 @@ class AuthRepository extends IAuthRepository {
 
       // Armazena o token localmente para persistência entre sessões
       try {
-        await JwtStorage.salvarJwt(token);
+        await LocalStorage.salvarJwt(token);
       } on Exception catch (e) {
         throw Exception(
             'Erro ao salvar o token JWT localmente: ${e.toString()}');
@@ -89,7 +89,7 @@ class AuthRepository extends IAuthRepository {
 
       // Salva o usuário localmente para restauração de sessão futura
       try {
-        await JwtStorage.salvarUsuario(user);
+        await LocalStorage.salvarUsuario(user);
       } catch (e, stack) {
         print('Erro ao salvar usuário localmente: $e\n$stack');
         // Não lança exceção, pois o login foi bem-sucedido, mas loga o erro
@@ -140,24 +140,24 @@ class AuthRepository extends IAuthRepository {
   @override
   Future<User?> restaurarSessao() async {
     try {
-      final token = await JwtStorage.obterJwt();
+      final token = await LocalStorage.obterJwt();
       if (token == null || token.isEmpty) {
         print(
             '[AuthRepository] Token JWT ausente ou inválido na restauração de sessão.');
-        await JwtStorage.removerJwt();
-        await JwtStorage.removerUsuario();
+        await LocalStorage.removerJwt();
+        await LocalStorage.removerUsuario();
         _usuarioLogado = null;
         _estaLogado = false;
         notifyListeners();
         return null;
       }
 
-      final user = await JwtStorage.obterUsuario();
+      final user = await LocalStorage.obterUsuario();
       if (user == null) {
         print(
             '[AuthRepository] Dados do usuário ausentes ou inválidos na restauração de sessão.');
-        await JwtStorage.removerJwt();
-        await JwtStorage.removerUsuario();
+        await LocalStorage.removerJwt();
+        await LocalStorage.removerUsuario();
         _usuarioLogado = null;
         _estaLogado = false;
         notifyListeners();
@@ -169,8 +169,8 @@ class AuthRepository extends IAuthRepository {
       } catch (e, stack) {
         print(
             '[AuthRepository] Erro ao definir o token JWT no ApiClient: $e\n$stack');
-        await JwtStorage.removerJwt();
-        await JwtStorage.removerUsuario();
+        await LocalStorage.removerJwt();
+        await LocalStorage.removerUsuario();
         _usuarioLogado = null;
         _estaLogado = false;
         notifyListeners();
@@ -184,24 +184,24 @@ class AuthRepository extends IAuthRepository {
     } on FormatException catch (e, stack) {
       print(
           '[AuthRepository] Erro de formatação ao restaurar sessão: $e\n$stack');
-      await JwtStorage.removerJwt();
-      await JwtStorage.removerUsuario();
+      await LocalStorage.removerJwt();
+      await LocalStorage.removerUsuario();
       _usuarioLogado = null;
       _estaLogado = false;
       notifyListeners();
       return null;
     } on Exception catch (e, stack) {
       print('[AuthRepository] Erro conhecido ao restaurar sessão: $e\n$stack');
-      await JwtStorage.removerJwt();
-      await JwtStorage.removerUsuario();
+      await LocalStorage.removerJwt();
+      await LocalStorage.removerUsuario();
       _usuarioLogado = null;
       _estaLogado = false;
       notifyListeners();
       return null;
     } catch (e, stack) {
       print('[AuthRepository] Erro inesperado ao restaurar sessão: $e\n$stack');
-      await JwtStorage.removerJwt();
-      await JwtStorage.removerUsuario();
+      await LocalStorage.removerJwt();
+      await LocalStorage.removerUsuario();
       _usuarioLogado = null;
       _estaLogado = false;
       notifyListeners();
@@ -222,8 +222,8 @@ class AuthRepository extends IAuthRepository {
   /// Limpa o estado de usuário logado e notifica listeners.
   @override
   Future<void> logout() async {
-    await JwtStorage.removerJwt();
-    await JwtStorage.removerUsuario();
+    await LocalStorage.removerJwt();
+    await LocalStorage.removerUsuario();
     _usuarioLogado = null;
     _estaLogado = false;
     notifyListeners();

@@ -1,12 +1,12 @@
-
-import 'package:financy_app/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:financy_app/ui/LoginView/view_model/login_view_model.dart';
+import 'package:go_router/go_router.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  final GoRouter router;
+  const App({super.key, required this.router});
 
   @override
   Widget build(BuildContext context) {
@@ -20,4 +20,4 @@ class App extends StatelessWidget {
       ),
     );
   }
-} 
+}
