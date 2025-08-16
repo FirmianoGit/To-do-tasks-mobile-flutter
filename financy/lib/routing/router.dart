@@ -1,4 +1,5 @@
 import 'package:financy_app/routing/routes.dart';
+import 'package:financy_app/ui/CreateAcountView/create_acount_view.dart';
 import 'package:financy_app/ui/LoginView/widget/login_screen.dart';
 import 'package:financy_app/ui/TasksView/tasks_screen.dart';
 import 'package:financy_app/ui/WelcomeView/welcome_page.dart';
@@ -20,17 +21,28 @@ GoRouter createRouter(String initialRoute) {
         path: Routes.welcome,
         builder: (_, __) => const WelcomePage(),
       ),
-      GoRoute(
-        path: Routes.login,
-        pageBuilder: (context, state) => CustomTransitionPage(
-          key: state.pageKey,
-          child: const LoginPage(),
-          transitionDuration: const Duration(milliseconds: transitionDuration),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
+        GoRoute(
+          path: Routes.login,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: const LoginPage(),
+            transitionDuration: const Duration(milliseconds: transitionDuration),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+          ),
         ),
-      ),
+        GoRoute(
+          path: Routes.createAcount,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: const CreateAcountPage(),
+            transitionDuration: const Duration(milliseconds: transitionDuration),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+          ),
+        ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
             ScaffoldScreen(navigationContainer: navigationShell),

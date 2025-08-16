@@ -5,6 +5,7 @@ import 'package:financy_app/ui/core/shared/Loading/loading_overlay.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 import 'package:financy_app/ui/core/utils/screen_dialogs.dart';
+import 'package:financy_app/ui/core/utils/validations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ class LoginPage extends StatelessWidget {
 
 // Conteúdo da tela de login (formulário, botões, etc)
 class _LoginPageContent extends StatefulWidget {
-  const _LoginPageContent({super.key});
+  const _LoginPageContent();
 
   @override
   State<_LoginPageContent> createState() => _LoginPageContentState();
@@ -95,12 +96,7 @@ class _LoginPageContentState extends State<_LoginPageContent> {
                               TextFormField(
                                 controller: _emailController,
                                 decoration: textFormFildDecoration('E-mail'),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Por favor, insira seu e-mail';
-                                  }
-                                  return null;
-                                },
+                                validator: Validations.validateEmail,
                                 style: AppTextStyles.thinText
                                     .copyWith(color: Colors.black),
                               ),
@@ -127,12 +123,7 @@ class _LoginPageContentState extends State<_LoginPageContent> {
                                     splashColor: AppColors.greenLightTwo,
                                   ),
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Por favor, insira sua senha';
-                                  }
-                                  return null;
-                                },
+                                validator: Validations.validatePassword,
                                 obscureText: _obscureTextSenha,
                                 style: AppTextStyles.thinText
                                     .copyWith(color: Colors.black),
@@ -215,6 +206,33 @@ class _LoginPageContentState extends State<_LoginPageContent> {
                             ),
                             Expanded(child: Divider(color: Colors.grey[400])),
                           ],
+                        ),
+                        const SizedBox(height: 12),
+                        // Botão de login com Google
+                        // Botão de login com e-mail (criar conta)
+                        SizedBox(
+                          width: screenWidth,
+                          child: OutlinedButton.icon(
+                            onPressed: () {
+                              context.go(Routes.createAcount);
+                            },
+                            icon: Icon(
+                              Icons.email_outlined,
+                              color: AppColors.greenLightTwo,
+                              size: 24,
+                            ),
+                            label: Text(
+                              'Continuar com E-mail',
+                              style: AppTextStyles.buttonText
+                                  .copyWith(color: Colors.black, fontSize: 16),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.all(12),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              side: BorderSide(color: Colors.grey[400]!),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 12),
                         // Botão de login com Google

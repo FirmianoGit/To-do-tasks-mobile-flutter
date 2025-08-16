@@ -15,7 +15,7 @@ List<SingleChildWidget> get providersRemote {
     Provider(create: (_) => LocalStorage()),
     ChangeNotifierProvider(
       create: (context) =>
-          AuthRepository(apiClient: context.read()) as AuthRepository,
+          AuthRepository(apiClient: context.read()),
     ),
     ..._sharedProviders,
   ];
