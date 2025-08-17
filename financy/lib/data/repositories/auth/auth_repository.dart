@@ -120,15 +120,17 @@ class AuthRepository extends IAuthRepository {
         'senha': senha,
       });
 
-      // Espera que a resposta contenha os dados do usuário criado
-      final userJson = response.data['usuario'] as Map<String, dynamic>?;
+      // A resposta já é o próprio JSON do usuário, não está aninhado em "usuario"
+      final userJson = response.data as Map<String, dynamic>?;
       if (userJson == null) {
         throw Exception('Dados do usuário não encontrados na resposta.');
       }
 
       // Converte o JSON em um modelo User
-      return User.fromJson(userJson);
-    } catch (e) {
+      final user = User.fromJson(userJson);
+      return user;
+    } catch (e, stack) {
+      print('Erro ao registrar usuário: $e\n$stack');
       rethrow;
     }
   }

@@ -1,10 +1,12 @@
 import 'package:financy_app/routing/routes.dart';
+import 'package:financy_app/ui/CreateAcountView/ViewModel/create_acount_view_model.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 import 'package:financy_app/ui/LoginView/widget/Class/login_textform_decoration.dart';
 import 'package:financy_app/ui/core/utils/validations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class CreateAcountPage extends StatefulWidget {
   const CreateAcountPage({super.key});
@@ -17,7 +19,8 @@ class _CreateAcountPageState extends State<CreateAcountPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
-  final TextEditingController _confirmarSenhaController = TextEditingController();
+  final TextEditingController _confirmarSenhaController =
+      TextEditingController();
 
   bool _obscureSenha = true;
   bool _obscureConfirmarSenha = true;
@@ -37,6 +40,7 @@ class _CreateAcountPageState extends State<CreateAcountPage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final viewModel = context.watch<CreateAccountViewModel>();
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -54,7 +58,7 @@ class _CreateAcountPageState extends State<CreateAcountPage> {
                   ),
                   // Título
                   Text(
-                    'Criar Conta',
+                    'Vem com a gente!',
                     style: AppTextStyles.bigText.copyWith(
                       color: AppColors.green,
                       fontSize: screenWidth * 0.08,
@@ -71,33 +75,44 @@ class _CreateAcountPageState extends State<CreateAcountPage> {
                           // Campo de Email
                           TextFormField(
                             controller: _emailController,
-                            decoration: textFormFildDecoration('E-mail').copyWith(
-                              prefixIcon: Icon(Icons.email_outlined, color: AppColors.green),
+                            decoration:
+                                textFormFildDecoration('E-mail').copyWith(
+                              prefixIcon: Icon(Icons.email_outlined,
+                                  color: AppColors.green),
                             ),
                             keyboardType: TextInputType.emailAddress,
                             validator: Validations.validateEmail,
-                            style: AppTextStyles.thinText.copyWith(color: Colors.black),
+                            style: AppTextStyles.thinText
+                                .copyWith(color: Colors.black),
                           ),
-                          SizedBox(height: screenHeight * 0.016),
+                          SizedBox(height: screenHeight * 0.013),
                           // Campo de Nome de Usuário
                           TextFormField(
                             controller: _usernameController,
-                            decoration: textFormFildDecoration('Nome de usuário').copyWith(
-                              prefixIcon: Icon(Icons.person_outline, color: AppColors.green),
+                            decoration:
+                                textFormFildDecoration('Nome de usuário')
+                                    .copyWith(
+                              prefixIcon: Icon(Icons.person_outline,
+                                  color: AppColors.green),
                             ),
                             validator: Validations.validateUsername,
-                            style: AppTextStyles.thinText.copyWith(color: Colors.black),
+                            style: AppTextStyles.thinText
+                                .copyWith(color: Colors.black),
                           ),
-                          SizedBox(height: screenHeight * 0.016),
+                          SizedBox(height: screenHeight * 0.013),
                           // Campo de Senha
                           TextFormField(
                             controller: _senhaController,
                             obscureText: _obscureSenha,
-                            decoration: textFormFildDecoration('Senha').copyWith(
-                              prefixIcon: Icon(Icons.lock_outline, color: AppColors.green),
+                            decoration:
+                                textFormFildDecoration('Senha').copyWith(
+                              prefixIcon: Icon(Icons.lock_outline,
+                                  color: AppColors.green),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _obscureSenha ? Icons.visibility_off : Icons.visibility,
+                                  _obscureSenha
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
                                   color: Colors.grey,
                                 ),
                                 onPressed: () {
@@ -108,29 +123,39 @@ class _CreateAcountPageState extends State<CreateAcountPage> {
                               ),
                             ),
                             validator: Validations.validatePassword,
-                            style: AppTextStyles.thinText.copyWith(color: Colors.black),
+                            style: AppTextStyles.thinText
+                                .copyWith(color: Colors.black),
                           ),
-                          SizedBox(height: screenHeight * 0.016),
+                          SizedBox(height: screenHeight * 0.013),
                           // Campo de Confirmar Senha
                           TextFormField(
                             controller: _confirmarSenhaController,
                             obscureText: _obscureConfirmarSenha,
-                            decoration: textFormFildDecoration('Confirmar senha').copyWith(
-                              prefixIcon: Icon(Icons.lock_outline, color: AppColors.green),
+                            decoration:
+                                textFormFildDecoration('Confirmar senha')
+                                    .copyWith(
+                              prefixIcon: Icon(Icons.lock_outline,
+                                  color: AppColors.green),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _obscureConfirmarSenha ? Icons.visibility_off : Icons.visibility,
+                                  _obscureConfirmarSenha
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
                                   color: Colors.grey,
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    _obscureConfirmarSenha = !_obscureConfirmarSenha;
+                                    _obscureConfirmarSenha =
+                                        !_obscureConfirmarSenha;
                                   });
                                 },
                               ),
                             ),
-                            validator: (value) => Validations.validateConfirmPassword(value, _senhaController.text),
-                            style: AppTextStyles.thinText.copyWith(color: Colors.black),
+                            validator: (value) =>
+                                Validations.validateConfirmPassword(
+                                    value, _senhaController.text),
+                            style: AppTextStyles.thinText
+                                .copyWith(color: Colors.black),
                           ),
                           SizedBox(height: screenHeight * 0.03),
                           // Botão de criar conta
@@ -138,8 +163,51 @@ class _CreateAcountPageState extends State<CreateAcountPage> {
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: () {
-                                if (_formKey.currentState?.validate() ?? false) {
-                                  // TODO: lógica de criação de conta
+                                if (_formKey.currentState?.validate() ??
+                                    false) {
+                                  // Lógica de criação de conta usando a ViewModel já instanciada no topo do arquivo
+                                  setState(
+                                      () {}); // Garante rebuild para loading
+
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    },
+                                  );
+                                  viewModel
+                                      .criarConta(
+                                    email: _emailController.text.trim(),
+                                    username: _usernameController.text.trim(),
+                                    senha: _senhaController.text,
+                                  )
+                                      .then((sucesso) {
+                                    Navigator.of(context)
+                                        .pop(); // Fecha o dialog de loading
+                                    if (sucesso) {
+                                      context.go('/tasks');
+                                    } else if (viewModel.errorMessage != null) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title:
+                                              const Text('Erro ao criar conta'),
+                                          content:
+                                              Text(viewModel.errorMessage!),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  });
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -166,7 +234,8 @@ class _CreateAcountPageState extends State<CreateAcountPage> {
                             children: [
                               Text(
                                 'Já tem uma conta?',
-                                style: AppTextStyles.thinText.copyWith(color: Colors.grey[700]),
+                                style: AppTextStyles.thinText
+                                    .copyWith(color: Colors.grey[700]),
                               ),
                               TextButton(
                                 onPressed: () {
@@ -174,7 +243,8 @@ class _CreateAcountPageState extends State<CreateAcountPage> {
                                 },
                                 child: Text(
                                   'Entrar',
-                                  style: AppTextStyles.thinText.copyWith(color: AppColors.green),
+                                  style: AppTextStyles.thinText
+                                      .copyWith(color: AppColors.green),
                                 ),
                               ),
                             ],
