@@ -99,6 +99,8 @@ class ApiClient {
       final mensagem = e.response?.data?['message']?.toString() ?? e.message ?? 'Erro desconhecido na requisição POST.';
       if (e.response?.statusCode == 401) {
         throw UnauthorizedException('Não autorizado: $mensagem');
+      } else if (e.response?.statusCode == 409) {
+        throw ErroEmailRegistradoException('E-mail ou nome de usuário já cadastrados: $mensagem');
       } else if (e.response?.statusCode == 500) {
         throw ErroServidorException('Erro interno do servidor: $mensagem');
       } else if (e.response?.statusCode == 400) {
@@ -172,6 +174,19 @@ class ApiClient {
 
   /// Criação de usuário. Retorna o usuário criado.
   Future<Response> criarUsuario(Map<String, dynamic> dadosUsuario) async {
-    return await postRequisicao('/users', dados: dadosUsuario);
+    try {
+      return await postRequisicao('/users', dados: dadosUsuario);
+    } on ErroEmailRegistradoException catch (e) {
+      // Se for ErroEmailRegistradoException, apenas relança
+      rethrow;
+    } on DioException catch (e) {
+      final mensagem = e.response?.data?['message']?.toString() ?? e.message ?? 'Erro desconhecido ao criar usuário.';
+      if (e.response?.statusCode == 500) {
+        throw ErroServidorException('Erro ao criar usuário: $mensagem');
+      }
+      throw ErroDesconhecidoException('Erro ao criar usuário: $mensagem');
+    } catch (e) {
+      throw ErroDesconhecidoException('Erro inesperado ao criar usuário: $e');
+    }
   }
 }

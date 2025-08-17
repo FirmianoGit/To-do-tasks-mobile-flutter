@@ -123,15 +123,24 @@ class AuthRepository extends IAuthRepository {
       // A resposta já é o próprio JSON do usuário, não está aninhado em "usuario"
       final userJson = response.data as Map<String, dynamic>?;
       if (userJson == null) {
-        throw Exception('Dados do usuário não encontrados na resposta.');
+        throw ErroServidorException('Dados do usuário não encontrados na resposta.');
       }
 
       // Converte o JSON em um modelo User
       final user = User.fromJson(userJson);
       return user;
-    } catch (e, stack) {
-      print('Erro ao registrar usuário: $e\n$stack');
+    } on ErroEmailRegistradoException catch (e, stack) {
+      print('Erro de e-mail já registrado ao registrar usuário: $e\n$stack');
       rethrow;
+    } on ErroServidorException catch (e, stack) {
+      print('Erro de servidor ao registrar usuário: $e\n$stack');
+      rethrow;
+    } on ErroDesconhecidoException catch (e, stack) {
+      print('Erro desconhecido ao registrar usuário: $e\n$stack');
+      rethrow;
+    } catch (e, stack) {
+      print('Erro inesperado ao registrar usuário: $e\n$stack');
+      throw ErroDesconhecidoException('Erro inesperado ao registrar usuário.');
     }
   }
 

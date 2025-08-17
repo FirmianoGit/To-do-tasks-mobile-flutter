@@ -29,3 +29,11 @@ class ErroJWTException implements Exception {
   @override
   String toString() => 'ErroJWTException: $mensagem';
 }
+
+class ErroEmailRegistradoException implements Exception {
+  final String mensagem;
+  ErroEmailRegistradoException([this.mensagem = 'E-mail já registrado.']);
+
+  @override
+  String toString() => 'ErroEmailRegistradoException: $mensagem';
+}

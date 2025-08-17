@@ -39,20 +39,17 @@ class CreateAccountViewModel extends ChangeNotifier {
       );
       notifyListeners();
       return true;
-    } on UnauthorizedException catch (e) {
-      _setErrorMessage('Não autorizado. Verifique os dados informados.');
+    } on ErroEmailRegistradoException {
+      _setErrorMessage('E-mail ou nome de usuário já cadastrados.');
       return false;
     } on ErroServidorException catch (e) {
-      _setErrorMessage('Erro interno do servidor. Tente novamente mais tarde.');
-      return false;
-    } on ErroJWTException catch (e) {
-      _setErrorMessage('Problema com o token de autenticação. Tente novamente.');
+      _setErrorMessage('Erro interno do servidor. Tente novamente mais tarde. $e');
       return false;
     } on ErroDesconhecidoException catch (e) {
-      _setErrorMessage('Erro inesperado no servidor');
+      _setErrorMessage('Erro inesperado ao registrar usuário. $e');
       return false;
     } catch (e) {
-      _setErrorMessage('Erro inesperado: ${e.toString()}');
+      _setErrorMessage('Erro inesperado ao registrar usuário. $e');
       return false;
     } finally {
       _setLoading(false);
