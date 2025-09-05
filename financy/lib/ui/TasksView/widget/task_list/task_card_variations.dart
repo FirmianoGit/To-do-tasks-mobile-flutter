@@ -122,7 +122,7 @@ class MinimalistTaskCard extends StatelessWidget {
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: corPrioridade.withOpacity(0.1),
+                                  color: corPrioridade.withValues(alpha:0.1),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
@@ -239,7 +239,7 @@ class CompactTaskCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: corPrioridade.withOpacity(0.1),
+                    color: corPrioridade.withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Icon(

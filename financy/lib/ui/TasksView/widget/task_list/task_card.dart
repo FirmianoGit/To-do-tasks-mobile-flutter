@@ -114,10 +114,10 @@ class TaskCard extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: corPrioridade.withOpacity(0.1),
+                        color: corPrioridade.withValues(alpha:0.1),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: corPrioridade.withOpacity(0.3),
+                          color: corPrioridade.withValues(alpha:0.3),
                           width: 1,
                         ),
                       ),

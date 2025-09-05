@@ -21,8 +21,8 @@ class WelcomeButton extends StatelessWidget {
         context.go('/createAcount');
       },
       borderRadius: BorderRadius.circular(10),
-      highlightColor: Colors.white.withOpacity(0.2),
-      splashColor: Colors.white.withOpacity(0.3),
+      highlightColor: Colors.white.withValues(alpha:0.2),
+      splashColor: Colors.white.withValues(alpha:0.3),
       child: Ink(
         decoration: BoxDecoration(
           color: AppColors.greenLightTwo,

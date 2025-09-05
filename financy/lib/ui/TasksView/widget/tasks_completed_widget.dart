@@ -33,7 +33,7 @@ class TasksCompletedWidget extends StatelessWidget {
             color: AppColors.greenLightTwo,
             boxShadow: [
               BoxShadow(
-                color: AppColors.green.withOpacity(0.2), // Cor da sombra
+                color: AppColors.green.withValues(alpha:0.2), // Cor da sombra
                 spreadRadius: 5, // Expansão
                 blurRadius: 8, // Desfoque
                 offset: const Offset(0, 5), // Posição da sombra (x, y)

@@ -176,7 +176,7 @@ class ApiClient {
   Future<Response> criarUsuario(Map<String, dynamic> dadosUsuario) async {
     try {
       return await postRequisicao('/users', dados: dadosUsuario);
-    } on ErroEmailRegistradoException catch (e) {
+    } on ErroEmailRegistradoException {
       // Se for ErroEmailRegistradoException, apenas relança
       rethrow;
     } on DioException catch (e) {

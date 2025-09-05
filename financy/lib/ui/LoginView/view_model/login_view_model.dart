@@ -46,16 +46,16 @@ class LoginViewModel extends ChangeNotifier {
       final user = await _authRepository.login(email: email, senha: senha);
       notifyListeners();
       return true;
-    } on UnauthorizedException catch (e) {
+    } on UnauthorizedException {
       _setErrorMessage('Credenciais inválidas. Verifique seu e-mail e senha.');
       return false;
-    } on ErroServidorException catch (e) {
+    } on ErroServidorException {
       _setErrorMessage('Erro interno do servidor. Tente novamente mais tarde.');
       return false;
-    } on ErroJWTException catch (e) {
+    } on ErroJWTException {
       _setErrorMessage('Problema com o token de autenticação. Tente novamente.');
       return false;
-    } on ErroDesconhecidoException catch (e) {
+    } on ErroDesconhecidoException {
       _setErrorMessage('Erro inesperado no servidor');
       return false;
     } catch (e) {
