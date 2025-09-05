@@ -1,7 +1,7 @@
-import 'package:financy_app/mock/mock.dart';
-import 'package:financy_app/ui/TasksView/widget/task_list/tasks_card.dart';
-import 'package:flutter/material.dart';
 import 'package:financy_app/domain/models/tasks/tasks.dart';
+import 'package:financy_app/mock/mock.dart';
+import 'package:financy_app/ui/TasksView/widget/task_list/task_card.dart';
+import 'package:flutter/material.dart';
 
 class TaskListView extends StatelessWidget {
   const TaskListView({super.key});

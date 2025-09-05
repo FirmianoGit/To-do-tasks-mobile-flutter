@@ -96,6 +96,7 @@ class _LoginPageContentState extends State<_LoginPageContent> {
                               TextFormField(
                                 controller: _emailController,
                                 decoration: textFormFildDecoration('E-mail'),
+                                keyboardType: TextInputType.emailAddress,
                                 validator: Validations.validateEmail,
                                 style: AppTextStyles.thinText
                                     .copyWith(color: Colors.black),
