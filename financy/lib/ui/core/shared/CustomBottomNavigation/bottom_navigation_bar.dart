@@ -33,7 +33,7 @@ class CustomNavBar extends StatelessWidget {
         color: AppColors.white,
         boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.1), // Cor da sombra
+          color: Colors.black.withValues(alpha:0.1), // Cor da sombra
           spreadRadius: 5, // Expansão
           blurRadius: 8, // Desfoque
           offset: const Offset(0, 5), // Posição da sombra (x, y)

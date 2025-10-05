@@ -8,12 +8,10 @@ class AppColors {
   static const Color greenLightTwo = Color(0xFF438883);
   static const Color greenWhite = Color(0xFFEEF8F7);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color red = Color(0xFFFF5F57);
+  static const Color yellow = Color(0xFFFEBC2F);
   static const List<Color> greenwGradient = [
     Color(0xFF63B5AF),
     Color(0xFF438883)
-  ];
-  static const List<Color> purpleGradient = [
-    Color(0xFFF4B9FA),
-    Color(0xFFB286FA)
   ];
 }

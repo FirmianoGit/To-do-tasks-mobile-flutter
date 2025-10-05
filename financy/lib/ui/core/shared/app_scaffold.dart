@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 // Tela principal que recebe um NavigationShell do GoRouter
 // e exibe a CustomNavBar como barra de navegação inferior.
 class ScaffoldScreen extends StatelessWidget {
-  const ScaffoldScreen({required this.navigationContainer});
+  const ScaffoldScreen({super.key, required this.navigationContainer});
 
   // Shell de navegação com múltiplas branches, fornecido pelo GoRouter
   final StatefulNavigationShell navigationContainer;
