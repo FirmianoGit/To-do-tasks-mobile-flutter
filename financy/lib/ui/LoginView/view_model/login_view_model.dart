@@ -43,7 +43,7 @@ class LoginViewModel extends ChangeNotifier {
     _setErrorMessage(null);
 
     try {
-      final user = await _authRepository.login(email: email, senha: senha);
+      await _authRepository.login(email: email, senha: senha);
       notifyListeners();
       return true;
     } on UnauthorizedException {

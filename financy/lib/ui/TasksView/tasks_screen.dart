@@ -1,8 +1,7 @@
 import 'package:financy_app/ui/TasksView/widget/Tastks_filter/filter_row.dart';
 import 'package:financy_app/ui/TasksView/widget/task_list/task_list.dart';
-import 'package:financy_app/ui/TasksView/widget/tasks_completed_widget.dart';
 import 'package:financy_app/ui/TasksView/widget/tasks_header.dart';
-import 'package:financy_app/ui/TasksView/widget/tasks_screen_top.dart';
+import 'package:financy_app/ui/core/shared/CustomAppBar/tasks_screen_top.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -24,18 +23,15 @@ class TasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtém dimensões da tela para responsividade
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: AppColors.white,
+      // Topo da tela com saudação ou informações do usuário
+      appBar: ImprovedTasksScreenTop(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            // Topo da tela com saudação ou informações do usuário
-            TasksScreentop(screenHeight: screenHeight),
             // Widget de progresso de tarefas completas
             // TasksCompletedWidget(
             //   screenHeight: screenHeight,

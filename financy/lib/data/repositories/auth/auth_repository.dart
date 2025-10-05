@@ -140,7 +140,7 @@ class AuthRepository extends IAuthRepository {
       rethrow;
     } catch (e, stack) {
       print('Erro inesperado ao registrar usuário: $e\n$stack');
-      throw ErroDesconhecidoException('Erro inesperado ao registrar usuário.');
+      throw ErroDesconhecidoException('Erro inesperado ao registrar usuário: $e\n$stack');
     }
   }
 
