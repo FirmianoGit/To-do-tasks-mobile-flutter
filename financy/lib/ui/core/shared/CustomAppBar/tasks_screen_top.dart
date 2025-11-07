@@ -59,9 +59,9 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
 
   String _getGreeting() {
     final hour = DateTime.now().hour;
-    if (hour < 12) {
+    if (hour < 12 && hour >= 5) {
       return 'Bom dia';
-    } else if (hour < 18) {
+    } else if (hour < 18 && hour >= 12) {
       return 'Boa tarde';
     } else {
       return 'Boa noite';
@@ -82,6 +82,7 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
     showMenu<String>(
       context: context,
       position: position,
+      color: AppColors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -150,6 +151,7 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
     showMenu<int>(
       context: context,
       position: position,
+      color: AppColors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -283,7 +285,14 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
     final greetingFontSize = screenWidth * 0.038; // 3.8% da largura
     final nameFontSize = screenWidth * 0.055; // 5.5% da largura
     
-    return AppBar(
+    return GestureDetector(
+      onTap: () {
+        // Remove o foco do campo de pesquisa ao clicar fora dele
+        if (_searchFocusNode.hasFocus) {
+          _searchFocusNode.unfocus();
+        }
+      },
+      child: AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -424,57 +433,62 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
                 SizedBox(height: screenHeight * 0.018),
                 
                 // Barra de pesquisa sempre visível
-                Container(
-                  height: screenHeight * 0.055, // 5.5% da altura
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular((screenHeight * 0.055) / 2),
-                    border: Border.all(
-                      color: _searchFocusNode.hasFocus 
-                        ? AppColors.greenLightTwo.withValues(alpha: 0.5)
-                        : Colors.grey.shade300,
-                      width: 1.5,
+                GestureDetector(
+                  onTap: () {
+                    // Previne que o tap no TextField seja capturado pelo GestureDetector pai
+                  },
+                  child: Container(
+                    height: screenHeight * 0.055, // 5.5% da altura
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade50,
+                      borderRadius: BorderRadius.circular((screenHeight * 0.025) / 2),
+                      border: Border.all(
+                        color: _searchFocusNode.hasFocus 
+                          ? AppColors.greenLightTwo.withValues(alpha: 0.5)
+                          : Colors.grey.shade300,
+                        width: 1.5,
+                      ),
                     ),
-                  ),
-                  child: TextField(
-                    controller: _searchController,
-                    focusNode: _searchFocusNode,
-                    onChanged: widget.onSearchChanged,
-                    decoration: InputDecoration(
-                      hintText: 'Pesquisar tarefas...',
-                      hintStyle: TextStyle(
-                        color: Colors.grey.shade500,
+                    child: TextField(
+                      controller: _searchController,
+                      focusNode: _searchFocusNode,
+                      onChanged: widget.onSearchChanged,
+                      decoration: InputDecoration(
+                        hintText: 'Pesquisar tarefas...',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade500,
+                          fontSize: (screenWidth * 0.035).clamp(12.0, 15.0),
+                        ),
+                        prefixIcon: Icon(
+                          Icons.search_rounded,
+                          color: AppColors.greenLightTwo,
+                          size: (screenWidth * 0.05).clamp(18.0, 22.0),
+                        ),
+                        suffixIcon: _searchController.text.isNotEmpty
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.clear_rounded,
+                                color: Colors.grey.shade500,
+                                size: (screenWidth * 0.045).clamp(18.0, 20.0),
+                              ),
+                              onPressed: () {
+                                _searchController.clear();
+                                if (widget.onSearchChanged != null) {
+                                  widget.onSearchChanged!('');
+                                }
+                              },
+                            )
+                          : null,
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.04,
+                          vertical: screenHeight * 0.015,
+                        ),
+                      ),
+                      style: TextStyle(
                         fontSize: (screenWidth * 0.035).clamp(12.0, 15.0),
+                        color: Colors.black87,
                       ),
-                      prefixIcon: Icon(
-                        Icons.search_rounded,
-                        color: AppColors.greenLightTwo,
-                        size: (screenWidth * 0.05).clamp(18.0, 22.0),
-                      ),
-                      suffixIcon: _searchController.text.isNotEmpty
-                        ? IconButton(
-                            icon: Icon(
-                              Icons.clear_rounded,
-                              color: Colors.grey.shade500,
-                              size: (screenWidth * 0.045).clamp(18.0, 20.0),
-                            ),
-                            onPressed: () {
-                              _searchController.clear();
-                              if (widget.onSearchChanged != null) {
-                                widget.onSearchChanged!('');
-                              }
-                            },
-                          )
-                        : null,
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: screenWidth * 0.04,
-                        vertical: screenHeight * 0.015,
-                      ),
-                    ),
-                    style: TextStyle(
-                      fontSize: (screenWidth * 0.035).clamp(12.0, 15.0),
-                      color: Colors.black87,
                     ),
                   ),
                 ),
@@ -483,6 +497,7 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
           ),
         ),
       ),
+    ),
     );
   }
 }

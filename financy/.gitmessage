@@ -1,0 +1,19 @@
+# [TIPO]: Breve descrição da alteração
+
+# Corpo da mensagem explicando o que e por que (não o como)
+
+# [TIPO] pode ser:
+# feat     : Nova funcionalidade
+# fix      : Correção de bug
+# docs     : Alterações na documentação
+# style    : Formatação, ponto e vírgula faltando, etc; Sem alteração de código
+# refactor : Refatoração do código
+# test     : Adição ou correção de testes
+# chore    : Alterações no processo de build, ferramentas auxiliares, etc.
+
+# Exemplo:
+# feat: Adiciona página de login
+# 
+# Implementa a tela de login com autenticação via e-mail e senha.
+# 
+# Issue: #123

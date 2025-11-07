@@ -27,7 +27,9 @@ class TasksScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       // Topo da tela com saudação ou informações do usuário
-      appBar: ImprovedTasksScreenTop(),
+      appBar: ImprovedTasksScreenTop(
+        userName: 'Firmiano',
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
