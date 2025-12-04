@@ -3,8 +3,17 @@ import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
-/// AppTopBar responsiva com barra de pesquisa sempre visível
-class ImprovedTasksScreenTop extends StatefulWidget implements PreferredSizeWidget {
+/// AppBar customizada e responsiva com barra de pesquisa sempre visível.
+/// 
+/// Este widget implementa uma barra de aplicativo moderna com:
+/// - Avatar do usuário com menu de perfil
+/// - Saudação dinâmica (Bom dia/tarde/noite)
+/// - Nome do usuário
+/// - Botão de notificações com badge de contagem
+/// - Campo de pesquisa com limpar texto
+/// - Design responsivo que se adapta a diferentes tamanhos de tela
+class ImprovedTasksScreenTop extends StatefulWidget
+    implements PreferredSizeWidget {
   const ImprovedTasksScreenTop({
     super.key,
     this.userName = 'UNLOGED',
@@ -33,18 +42,27 @@ class ImprovedTasksScreenTop extends StatefulWidget implements PreferredSizeWidg
 
   @override
   Size get preferredSize {
-    // Altura responsiva: 18% da altura da tela
-    return const Size.fromHeight(180);
+    /// Define a altura preferida da AppBar de forma proporcional à tela
+    /// Usa 25% da altura da tela ao invés de um valor fixo de 180dp
+    /// Isso evita o espaço em branco gigantesco em dispositivos pequenos
+    /// e se adapta bem em tablets e telas grandes
+    final screenHeight = WidgetsBinding.instance.window.physicalSize.height /
+        WidgetsBinding.instance.window.devicePixelRatio;
+    return Size.fromHeight(screenHeight * 0.18);
   }
 }
 
 class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
+  /// Controla o texto dentro do campo de pesquisa
   final TextEditingController _searchController = TextEditingController();
+  /// Gerencia o foco do campo de pesquisa (quando está selecionado ou não)
   final FocusNode _searchFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    /// Listener que detecta mudanças no texto da pesquisa
+    /// Quando o usuário digita, atualiza a UI para mostrar/esconder botão de limpar
     _searchController.addListener(() {
       setState(() {}); // Atualiza UI quando o texto muda
     });
@@ -57,6 +75,8 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
     super.dispose();
   }
 
+  /// Retorna uma saudação personalizada baseada na hora do dia
+  /// Bom dia: 5h-12h | Boa tarde: 12h-18h | Boa noite: 18h-5h
   String _getGreeting() {
     final hour = DateTime.now().hour;
     if (hour < 12 && hour >= 5) {
@@ -68,13 +88,19 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
     }
   }
 
+  /// Exibe o menu de perfil com opções: Ver Perfil, Configurações e Sair
+  /// O menu é posicionado relativamente ao botão do avatar
   void _showProfileMenu(BuildContext context) {
+    /// Obtém as dimensões e posição do botão para posicionar o menu corretamente
     final RenderBox button = context.findRenderObject() as RenderBox;
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(
-        button.localToGlobal(button.size.bottomLeft(Offset.zero), ancestor: overlay),
-        button.localToGlobal(button.size.bottomRight(Offset.zero), ancestor: overlay),
+        button.localToGlobal(button.size.bottomLeft(Offset.zero),
+            ancestor: overlay),
+        button.localToGlobal(button.size.bottomRight(Offset.zero),
+            ancestor: overlay),
       ),
       Offset.zero & overlay.size,
     );
@@ -102,7 +128,8 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
           value: 'settings',
           child: Row(
             children: [
-              Icon(Icons.settings_outlined, size: 20, color: Colors.grey.shade700),
+              Icon(Icons.settings_outlined,
+                  size: 20, color: Colors.grey.shade700),
               const SizedBox(width: 12),
               const Text('Configurações'),
             ],
@@ -139,11 +166,14 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
 
   void _showNotificationsMenu(BuildContext context) {
     final RenderBox button = context.findRenderObject() as RenderBox;
-    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(
-        button.localToGlobal(button.size.bottomLeft(Offset.zero), ancestor: overlay),
-        button.localToGlobal(button.size.bottomRight(Offset.zero), ancestor: overlay),
+        button.localToGlobal(button.size.bottomLeft(Offset.zero),
+            ancestor: overlay),
+        button.localToGlobal(button.size.bottomRight(Offset.zero),
+            ancestor: overlay),
       ),
       Offset.zero & overlay.size,
     );
@@ -277,14 +307,14 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    
+
     // Proporções responsivas
     final horizontalPadding = screenWidth * 0.05; // 5% da largura
     final avatarSize = screenWidth * 0.11; // 11% da largura (máx 50px)
     final iconButtonSize = screenWidth * 0.10; // 10% da largura (máx 44px)
     final greetingFontSize = screenWidth * 0.038; // 3.8% da largura
     final nameFontSize = screenWidth * 0.055; // 5.5% da largura
-    
+
     return GestureDetector(
       onTap: () {
         // Remove o foco do campo de pesquisa ao clicar fora dele
@@ -293,211 +323,220 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
         }
       },
       child: AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      automaticallyImplyLeading: false,
-      toolbarHeight: screenHeight * 0.18, // 18% da altura da tela
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: horizontalPadding.clamp(16.0, 24.0),
-              vertical: screenHeight * 0.015,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header principal com saudação e ações
-                Row(
-                  children: [
-                    // Avatar do usuário
-                    Builder(
-                      builder: (context) => Container(
-                        width: avatarSize.clamp(40.0, 50.0),
-                        height: avatarSize.clamp(40.0, 50.0),
-                        decoration: BoxDecoration(
-                          color: AppColors.greenLightTwo.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(avatarSize.clamp(40.0, 50.0) / 2),
-                          border: Border.all(
-                            color: AppColors.greenLightTwo.withValues(alpha: 0.3),
-                            width: 2,
-                          ),
-                        ),
-                        child: IconButton(
-                          onPressed: () => _showProfileMenu(context),
-                          icon: Icon(
-                            Icons.person_rounded,
-                            color: AppColors.greenLightTwo,
-                            size: (avatarSize * 0.55).clamp(20.0, 28.0),
-                          ),
-                          padding: EdgeInsets.zero,
-                        ),
-                      ),
-                    ),
-                    
-                    SizedBox(width: screenWidth * 0.04),
-                    
-                    // Saudação e nome do usuário
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _getGreeting(),
-                            style: AppTextStyles.thinText.copyWith(
-                              fontSize: greetingFontSize.clamp(14.0, 18.0),
-                              color: Colors.grey.shade600,
-                              fontWeight: FontWeight.w400,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        toolbarHeight: screenHeight * 0.10, // 18% da altura da tela
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontalPadding.clamp(16.0, 24.0),
+                vertical: screenHeight * 0.015,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header principal com saudação e ações
+                  Row(
+                    children: [
+                      // Avatar do usuário
+                      Builder(
+                        builder: (context) => Container(
+                          width: avatarSize.clamp(40.0, 50.0),
+                          height: avatarSize.clamp(40.0, 50.0),
+                          decoration: BoxDecoration(
+                            color:
+                                AppColors.greenLightTwo.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(
+                                avatarSize.clamp(40.0, 50.0) / 2),
+                            border: Border.all(
+                              color: AppColors.greenLightTwo
+                                  .withValues(alpha: 0.3),
+                              width: 2,
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.003),
-                          Text(
-                            widget.userName,
-                            style: AppTextStyles.bigText.copyWith(
-                              fontSize: nameFontSize.clamp(18.0, 24.0),
+                          child: IconButton(
+                            onPressed: () => _showProfileMenu(context),
+                            icon: Icon(
+                              Icons.person_rounded,
                               color: AppColors.greenLightTwo,
-                              fontWeight: FontWeight.w700,
+                              size: (avatarSize * 0.55).clamp(20.0, 28.0),
                             ),
-                            overflow: TextOverflow.ellipsis,
+                            padding: EdgeInsets.zero,
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                    
-                    // Botão de notificações com badge
-                    Builder(
-                      builder: (context) => Stack(
-                        children: [
-                          Container(
-                            width: iconButtonSize.clamp(38.0, 44.0),
-                            height: iconButtonSize.clamp(38.0, 44.0),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade100,
-                              borderRadius: BorderRadius.circular(iconButtonSize.clamp(38.0, 44.0) / 2),
-                            ),
-                            child: IconButton(
-                              onPressed: () => _showNotificationsMenu(context),
-                              icon: Icon(
-                                Icons.notifications_none_rounded,
-                                color: Colors.grey.shade700,
-                                size: (iconButtonSize * 0.55).clamp(20.0, 24.0),
+
+                      SizedBox(width: screenWidth * 0.04),
+
+                      // Saudação e nome do usuário
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _getGreeting(),
+                              style: AppTextStyles.thinText.copyWith(
+                                fontSize: greetingFontSize.clamp(14.0, 18.0),
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.w400,
                               ),
-                              padding: EdgeInsets.zero,
                             ),
-                          ),
-                          
-                          // Badge de notificação
-                          if (widget.notificationCount > 0)
-                            Positioned(
-                              right: iconButtonSize * 0.12,
-                              top: iconButtonSize * 0.12,
-                              child: Container(
-                                padding: EdgeInsets.all(screenWidth * 0.008),
-                                decoration: BoxDecoration(
-                                  color: Colors.red.shade500,
-                                  borderRadius: BorderRadius.circular(10),
+                            SizedBox(height: screenHeight * 0.003),
+                            Text(
+                              widget.userName,
+                              style: AppTextStyles.bigText.copyWith(
+                                fontSize: nameFontSize.clamp(18.0, 24.0),
+                                color: AppColors.greenLightTwo,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Botão de notificações com badge
+                      Builder(
+                        builder: (context) => Stack(
+                          children: [
+                            Container(
+                              width: iconButtonSize.clamp(38.0, 44.0),
+                              height: iconButtonSize.clamp(38.0, 44.0),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(
+                                    iconButtonSize.clamp(38.0, 44.0) / 2),
+                              ),
+                              child: IconButton(
+                                onPressed: () =>
+                                    _showNotificationsMenu(context),
+                                icon: Icon(
+                                  Icons.notifications_none_rounded,
+                                  color: Colors.grey.shade700,
+                                  size:
+                                      (iconButtonSize * 0.55).clamp(20.0, 24.0),
                                 ),
-                                constraints: BoxConstraints(
-                                  minWidth: screenWidth * 0.045,
-                                  minHeight: screenWidth * 0.045,
-                                ),
-                                child: Text(
-                                  widget.notificationCount > 99 
-                                    ? '99+' 
-                                    : widget.notificationCount.toString(),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: (screenWidth * 0.025).clamp(9.0, 11.0),
-                                    fontWeight: FontWeight.w600,
+                                padding: EdgeInsets.zero,
+                              ),
+                            ),
+
+                            // Badge de notificação
+                            if (widget.notificationCount > 0)
+                              Positioned(
+                                right: iconButtonSize * 0.12,
+                                top: iconButtonSize * 0.12,
+                                child: Container(
+                                  padding: EdgeInsets.all(screenWidth * 0.008),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red.shade500,
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  textAlign: TextAlign.center,
+                                  constraints: BoxConstraints(
+                                    minWidth: screenWidth * 0.045,
+                                    minHeight: screenWidth * 0.045,
+                                  ),
+                                  child: Text(
+                                    widget.notificationCount > 99
+                                        ? '99+'
+                                        : widget.notificationCount.toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: (screenWidth * 0.025)
+                                          .clamp(9.0, 11.0),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                
-                SizedBox(height: screenHeight * 0.018),
-                
-                // Barra de pesquisa sempre visível
-                GestureDetector(
-                  onTap: () {
-                    // Previne que o tap no TextField seja capturado pelo GestureDetector pai
-                  },
-                  child: Container(
-                    height: screenHeight * 0.055, // 5.5% da altura
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade50,
-                      borderRadius: BorderRadius.circular((screenHeight * 0.025) / 2),
-                      border: Border.all(
-                        color: _searchFocusNode.hasFocus 
-                          ? AppColors.greenLightTwo.withValues(alpha: 0.5)
-                          : Colors.grey.shade300,
-                        width: 1.5,
+                    ],
+                  ),
+
+                  SizedBox(height: screenHeight * 0.018),
+
+                  // Barra de pesquisa sempre visível
+                  GestureDetector(
+                    onTap: () {
+                      // Previne que o tap no TextField seja capturado pelo GestureDetector pai
+                    },
+                    child: Container(
+                      height: screenHeight * 0.055, // 5.5% da altura
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade50,
+                        borderRadius:
+                            BorderRadius.circular((screenHeight * 0.025) / 2),
+                        border: Border.all(
+                          color: _searchFocusNode.hasFocus
+                              ? AppColors.greenLightTwo.withValues(alpha: 0.5)
+                              : Colors.grey.shade300,
+                          width: 1.5,
+                        ),
                       ),
-                    ),
-                    child: TextField(
-                      controller: _searchController,
-                      focusNode: _searchFocusNode,
-                      onChanged: widget.onSearchChanged,
-                      decoration: InputDecoration(
-                        hintText: 'Pesquisar tarefas...',
-                        hintStyle: TextStyle(
-                          color: Colors.grey.shade500,
+                      child: TextField(
+                        controller: _searchController,
+                        focusNode: _searchFocusNode,
+                        onChanged: widget.onSearchChanged,
+                        decoration: InputDecoration(
+                          hintText: 'Pesquisar tarefas...',
+                          hintStyle: TextStyle(
+                            color: Colors.grey.shade500,
+                            fontSize: (screenWidth * 0.035).clamp(12.0, 15.0),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.search_rounded,
+                            color: AppColors.greenLightTwo,
+                            size: (screenWidth * 0.05).clamp(18.0, 22.0),
+                          ),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(
+                                    Icons.clear_rounded,
+                                    color: Colors.grey.shade500,
+                                    size:
+                                        (screenWidth * 0.045).clamp(18.0, 20.0),
+                                  ),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    if (widget.onSearchChanged != null) {
+                                      widget.onSearchChanged!('');
+                                    }
+                                  },
+                                )
+                              : null,
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.04,
+                            vertical: screenHeight * 0.015,
+                          ),
+                        ),
+                        style: TextStyle(
                           fontSize: (screenWidth * 0.035).clamp(12.0, 15.0),
+                          color: Colors.black87,
                         ),
-                        prefixIcon: Icon(
-                          Icons.search_rounded,
-                          color: AppColors.greenLightTwo,
-                          size: (screenWidth * 0.05).clamp(18.0, 22.0),
-                        ),
-                        suffixIcon: _searchController.text.isNotEmpty
-                          ? IconButton(
-                              icon: Icon(
-                                Icons.clear_rounded,
-                                color: Colors.grey.shade500,
-                                size: (screenWidth * 0.045).clamp(18.0, 20.0),
-                              ),
-                              onPressed: () {
-                                _searchController.clear();
-                                if (widget.onSearchChanged != null) {
-                                  widget.onSearchChanged!('');
-                                }
-                              },
-                            )
-                          : null,
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.04,
-                          vertical: screenHeight * 0.015,
-                        ),
-                      ),
-                      style: TextStyle(
-                        fontSize: (screenWidth * 0.035).clamp(12.0, 15.0),
-                        color: Colors.black87,
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ),
     );
   }
 }

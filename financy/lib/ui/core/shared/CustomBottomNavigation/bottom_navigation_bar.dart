@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 
-// CustomNavBar é um widget de barra de navegação inferior personalizada.
-// Ele exibe ícones com destaque animado para o item selecionado.
+//CustomNavBar é um widget de barra de navegação inferior personalizada.
+//Ele exibe ícones com destaque animado para o item selecionado.
 class CustomNavBar extends StatelessWidget {
   // Índice do item atualmente selecionado
   final int selectedIndex;
@@ -20,7 +20,7 @@ class CustomNavBar extends StatelessWidget {
   final List<IconData> icons = const [
     Icons.view_agenda_outlined,
     Icons.equalizer_outlined,
-    Icons.person_outline,
+
   ];
 
   @override
@@ -65,7 +65,7 @@ class CustomNavBar extends StatelessWidget {
                     height: 50,
                     decoration: const BoxDecoration(
                       color: AppColors.greenWhite, // Cor de fundo do círculo
-                      shape: BoxShape.circle, // Formato circular
+                      shape: BoxShape.circle,
                     ),
                   ),
                 ),

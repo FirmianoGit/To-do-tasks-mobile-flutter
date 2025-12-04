@@ -7,6 +7,7 @@ import 'package:financy_app/ui/core/shared/app_scaffold.dart';
 import 'package:financy_app/ui/teste/teste.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 const int transitionDuration = 400;
@@ -21,31 +22,55 @@ GoRouter createRouter(String initialRoute) {
         path: Routes.welcome,
         builder: (_, __) => const WelcomePage(),
       ),
-        GoRoute(
-          path: Routes.login,
-          pageBuilder: (context, state) => CustomTransitionPage(
-            key: state.pageKey,
-            child: const LoginPage(),
-            transitionDuration: const Duration(milliseconds: transitionDuration),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              return FadeTransition(opacity: animation, child: child);
-            },
-          ),
+      GoRoute(
+        path: Routes.login,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const LoginPage(),
+          transitionDuration: const Duration(milliseconds: transitionDuration),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
         ),
-        GoRoute(
-          path: Routes.createAcount,
-          pageBuilder: (context, state) => CustomTransitionPage(
-            key: state.pageKey,
-            child: const CreateAcountPage(),
-            transitionDuration: const Duration(milliseconds: transitionDuration),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              return FadeTransition(opacity: animation, child: child);
-            },
-          ),
+      ),
+      GoRoute(
+        path: Routes.createAcount,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const CreateAcountPage(),
+          transitionDuration: const Duration(milliseconds: transitionDuration),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
         ),
+      ),
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) =>
-            ScaffoldScreen(navigationContainer: navigationShell),
+        builder: (context, state, navigationShell) => PersistentTabView.router(
+          tabs: [
+            PersistentRouterTabConfig(
+              item: ItemConfig(
+                icon: const Icon(Icons.home),
+                title: "Home",
+              ),
+            ),
+            PersistentRouterTabConfig(
+              item: ItemConfig(
+                icon: const Icon(Icons.message),
+                title: "Messages",
+              ),
+            ),
+            PersistentRouterTabConfig(
+              item: ItemConfig(
+                icon: const Icon(Icons.settings),
+                title: "Settings",
+              ),
+            ),
+          ],
+          navBarBuilder: (navBarConfig) => Style13BottomNavBar(
+            navBarConfig: navBarConfig,
+          ),
+          navigationShell: navigationShell,
+        ),
         branches: [
           StatefulShellBranch(routes: [
             GoRoute(
@@ -53,10 +78,13 @@ GoRouter createRouter(String initialRoute) {
               pageBuilder: (context, state) => CustomTransitionPage(
                 key: state.pageKey,
                 child: const TasksScreen(),
-                transitionDuration: const Duration(milliseconds: transitionDuration),
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                transitionDuration:
+                    const Duration(milliseconds: transitionDuration),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
                   return FadeTransition(
-                    opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+                    opacity: CurveTween(curve: Curves.easeInOutCirc)
+                        .animate(animation),
                     child: child,
                   );
                 },
@@ -69,10 +97,13 @@ GoRouter createRouter(String initialRoute) {
               pageBuilder: (context, state) => CustomTransitionPage(
                 key: state.pageKey,
                 child: const BlueScreen(),
-                transitionDuration: const Duration(milliseconds: transitionDuration),
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                transitionDuration:
+                    const Duration(milliseconds: transitionDuration),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
                   return FadeTransition(
-                    opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+                    opacity: CurveTween(curve: Curves.easeInOutCirc)
+                        .animate(animation),
                     child: child,
                   );
                 },
@@ -85,10 +116,13 @@ GoRouter createRouter(String initialRoute) {
               pageBuilder: (context, state) => CustomTransitionPage(
                 key: state.pageKey,
                 child: const GreenScreen(),
-                transitionDuration: const Duration(milliseconds: transitionDuration),
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                transitionDuration:
+                    const Duration(milliseconds: transitionDuration),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
                   return FadeTransition(
-                    opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+                    opacity: CurveTween(curve: Curves.easeInOutCirc)
+                        .animate(animation),
                     child: child,
                   );
                 },
