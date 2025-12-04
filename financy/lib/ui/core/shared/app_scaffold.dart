@@ -1,4 +1,4 @@
-import 'package:financy_app/ui/core/shared/CustomBottomNavigation/bottom_navigation_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,15 +18,7 @@ class ScaffoldScreen extends StatelessWidget {
       body: navigationContainer,
 
       // Barra de navegação inferior personalizada
-      bottomNavigationBar: CustomNavBar(
-        // Índice do item atualmente selecionado
-        selectedIndex: navigationContainer.currentIndex,
-
-        // Ao tocar em um item, navega para a branch correspondente
-        onItemTapped: (index) {
-          navigationContainer.goBranch(index, initialLocation: true);
-        },
-      ),
+     
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:financy_app/ui/LoginView/view_model/login_view_model.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
   final GoRouter router;
@@ -19,6 +20,15 @@ class App extends StatelessWidget {
       ],
       child: MaterialApp.router(
         routerConfig: router,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('pt', 'BR'),
+        ],
+        locale: const Locale('pt', 'BR'),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:financy_app/ui/LoginView/widget/login_screen.dart';
 import 'package:financy_app/ui/TasksView/tasks_screen.dart';
 import 'package:financy_app/ui/WelcomeView/welcome_page.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
+import 'package:financy_app/ui/CreateTaskView/create_task_screen.dart';
 import 'package:financy_app/ui/teste/teste.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -103,10 +104,10 @@ GoRouter createRouter(String initialRoute) {
           ]),
           StatefulShellBranch(routes: [
             GoRoute(
-              path: Routes.teste1,
+              path: Routes.createTaskScreen,
               pageBuilder: (context, state) => CustomTransitionPage(
                 key: state.pageKey,
-                child: const BlueScreen(),
+                child: const CreateTaskScreen(),
                 transitionDuration:
                     const Duration(milliseconds: transitionDuration),
                 transitionsBuilder:
