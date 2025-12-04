@@ -13,6 +13,7 @@ class ScaffoldScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       // O corpo da tela será controlado dinamicamente pelo NavigationShell
       body: navigationContainer,
 

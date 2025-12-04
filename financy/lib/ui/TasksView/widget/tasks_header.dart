@@ -1,5 +1,4 @@
 import 'package:financy_app/ui/TasksView/widget/order_menu_button.dart';
-import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -10,17 +9,18 @@ class TasksHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
             Text(
-              'Minhas Tarefas:',
+              'Filtros de Visualização',
               style: AppTextStyles.midText.copyWith(
                 color: Colors.black,
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
+                fontSize: screenHeight * 0.025,
+                fontWeight: AppTextStyles.midText.copyWith(fontWeight: FontWeight.w400).fontWeight,
               ),
             ),
             OrderMenuButton(
@@ -30,19 +30,6 @@ class TasksHeader extends StatelessWidget {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(right: 5),
-          child: FloatingActionButton(
-            onPressed: () {},
-            backgroundColor: AppColors.green,
-            shape: CircleBorder(),
-            child: const Icon(
-              Icons.add,
-              color: AppColors.white,
-              size: 35,
-            ),
-          ),
-        )
       ],
     );
   }

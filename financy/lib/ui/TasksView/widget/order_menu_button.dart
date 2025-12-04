@@ -10,7 +10,7 @@ class OrderMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      icon: const Icon(Icons.sort), // Ícone do botão
+      icon: const Icon(Icons.filter_alt_outlined), // Ícone do botão
       onSelected: onSelected,
       color: AppColors.white,
       borderRadius: BorderRadius.circular(15),

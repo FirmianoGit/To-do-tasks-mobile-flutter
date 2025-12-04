@@ -1,4 +1,3 @@
-import 'package:financy_app/ui/TasksView/widget/Tastks_filter/filter_row.dart';
 import 'package:financy_app/ui/TasksView/widget/task_list/task_list.dart';
 import 'package:financy_app/ui/TasksView/widget/tasks_header.dart';
 import 'package:financy_app/ui/core/shared/CustomAppBar/tasks_screen_top.dart';
@@ -23,8 +22,9 @@ class TasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      extendBody: true,
       backgroundColor: AppColors.white,
       // Topo da tela com saudação ou informações do usuário
       appBar: ImprovedTasksScreenTop(
@@ -34,23 +34,7 @@ class TasksScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            // Widget de progresso de tarefas completas
-            // TasksCompletedWidget(
-            //   screenHeight: screenHeight,
-            //   screenWidth: screenWidth,
-            // ),
-            // Linha de filtros de tarefas
-            FiltersRow(
-              filters: [
-                FilterOption(key: 'all', label: 'Todas'),
-                FilterOption(key: 'pending', label: 'Pendentes'),
-                FilterOption(key: 'completed', label: 'Concluídas')
-              ],
-              onFilterChanged: (filterKey, isSelected) {
-                // TODO: Implementar lógica de filtro real aqui
-              },
-            ),
-            // Cabeçalho da lista de tarefas (ex: colunas, títulos)
+            SizedBox(height: screenHeight * 0.02),
             TasksHeader(),
             // Lista de tarefas expandida para ocupar o espaço restante
             Expanded(

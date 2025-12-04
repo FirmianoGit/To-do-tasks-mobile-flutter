@@ -3,7 +3,7 @@ import 'package:financy_app/ui/CreateAcountView/create_acount_view.dart';
 import 'package:financy_app/ui/LoginView/widget/login_screen.dart';
 import 'package:financy_app/ui/TasksView/tasks_screen.dart';
 import 'package:financy_app/ui/WelcomeView/welcome_page.dart';
-import 'package:financy_app/ui/core/shared/app_scaffold.dart';
+import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/teste/teste.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -46,28 +46,38 @@ GoRouter createRouter(String initialRoute) {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => PersistentTabView.router(
+          
           tabs: [
             PersistentRouterTabConfig(
               item: ItemConfig(
-                icon: const Icon(Icons.home),
-                title: "Home",
+                icon: const Icon(Icons.view_agenda_outlined),
+                title: "Tarefas",
+                activeForegroundColor: AppColors.green,
               ),
             ),
             PersistentRouterTabConfig(
               item: ItemConfig(
-                icon: const Icon(Icons.message),
-                title: "Messages",
+                icon: const Icon(
+                  Icons.add,
+                  color: AppColors.greenWhite,
+                ),
+                activeForegroundColor: AppColors.green,
               ),
             ),
             PersistentRouterTabConfig(
               item: ItemConfig(
-                icon: const Icon(Icons.settings),
-                title: "Settings",
+                icon: const Icon(Icons.equalizer_outlined),
+                title: "DashBoard",
+                activeForegroundColor: AppColors.green,
               ),
             ),
           ],
           navBarBuilder: (navBarConfig) => Style13BottomNavBar(
             navBarConfig: navBarConfig,
+            navBarDecoration: NavBarDecoration(
+              color: Colors.white,
+              
+            ),
           ),
           navigationShell: navigationShell,
         ),
