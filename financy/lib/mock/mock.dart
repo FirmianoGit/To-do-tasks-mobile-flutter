@@ -1,8 +1,17 @@
 import 'package:financy_app/domain/models/tasks/tasks.dart';
 
 class TaskMockupList {
-  static List<Task> getMockTasks() {
-    return [
+  /// Lista estática que armazena todas as tasks (mock + novas adicionadas)
+  static final List<Task> _tasks = [];
+  static const int defaultUserId = 999; // ID de usuário padrão para tasks mock
+  /// Flag para controlar se as tasks padrão já foram inicializadas
+  static bool _initialized = false;
+
+  /// Inicializa a lista com as tasks mock padrão
+  static void _initializeMockTasks() {
+    if (_initialized) return;
+    _initialized = true;
+    _tasks.addAll([
       Task(
         taskId: 1,
         titulo: 'Finalizar relatório mensal',
@@ -183,6 +192,73 @@ class TaskMockupList {
         criadoEm: DateTime.parse('2025-05-20'),
         prioridade: 3,
       ),
-    ];
+    ]);
+  }
+
+  /// Obtém todas as tasks (mock + adicionadas)
+  static List<Task> getMockTasks() {
+    _initializeMockTasks();
+    return _tasks;
+  }
+
+  /// Adiciona uma nova task à lista
+  /// Retorna true se adicionado com sucesso
+  static bool addTask(Task newTask) {
+    _initializeMockTasks();
+    _tasks.add(newTask);
+    return true;
+  }
+
+  /// Adiciona múltiplas tasks de uma vez
+  static void addMultipleTasks(List<Task> newTasks) {
+    _initializeMockTasks();
+    _tasks.addAll(newTasks);
+  }
+
+  /// Remove uma task pelo ID
+  static bool removeTaskById(int taskId) {
+    _initializeMockTasks();
+    final initialLength = _tasks.length;
+    _tasks.removeWhere((task) => task.taskId == taskId);
+    return _tasks.length < initialLength;
+  }
+
+  /// Atualiza uma task existente
+  static bool updateTask(Task updatedTask) {
+    _initializeMockTasks();
+    final index = _tasks.indexWhere((task) => task.taskId == updatedTask.taskId);
+    if (index != -1) {
+      _tasks[index] = updatedTask;
+      return true;
+    }
+    return false;
+  }
+
+  /// Obtém uma task específica pelo ID
+  static Task? getTaskById(int taskId) {
+    _initializeMockTasks();
+    try {
+      return _tasks.firstWhere((task) => task.taskId == taskId);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Limpa todas as tasks
+  static void clearAllTasks() {
+    _tasks.clear();
+    _initialized = false;
+  }
+
+  /// Retorna a quantidade total de tasks
+  static int getTaskCount() {
+    _initializeMockTasks();
+    return _tasks.length;
+  }
+
+  static int getNextTaskId() {
+    _initializeMockTasks();
+    if (_tasks.isEmpty) return 1;
+    return _tasks.map((task) => task.taskId).reduce((a, b) => a > b ? a : b) + 1;
   }
 }

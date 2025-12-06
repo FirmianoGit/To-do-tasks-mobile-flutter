@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:financy_app/ui/LoginView/view_model/login_view_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:financy_app/ui/core/theme/app_colors.dart';
 class App extends StatelessWidget {
   final GoRouter router;
   const App({super.key, required this.router});
@@ -29,6 +29,7 @@ class App extends StatelessWidget {
           Locale('pt', 'BR'),
         ],
         locale: const Locale('pt', 'BR'),
+        theme: AppTheme.theme,
       ),
     );
   }

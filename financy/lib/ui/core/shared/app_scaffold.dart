@@ -18,7 +18,6 @@ class ScaffoldScreen extends StatelessWidget {
       body: navigationContainer,
 
       // Barra de navegação inferior personalizada
-     
     );
   }
 }

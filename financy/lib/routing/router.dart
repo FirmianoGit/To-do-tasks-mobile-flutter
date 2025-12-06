@@ -47,7 +47,7 @@ GoRouter createRouter(String initialRoute) {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) => PersistentTabView.router(
-          
+
           tabs: [
             PersistentRouterTabConfig(
               item: ItemConfig(
@@ -77,7 +77,7 @@ GoRouter createRouter(String initialRoute) {
             navBarConfig: navBarConfig,
             navBarDecoration: NavBarDecoration(
               color: Colors.white,
-              
+
             ),
           ),
           navigationShell: navigationShell,

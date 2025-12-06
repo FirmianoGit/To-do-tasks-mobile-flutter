@@ -1,7 +1,10 @@
+import 'package:financy_app/domain/models/tasks/tasks.dart';
+import 'package:financy_app/mock/mock.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:financy_app/routing/routes.dart';
 
 class CreateTaskScreen extends StatefulWidget {
   const CreateTaskScreen({super.key});
@@ -14,7 +17,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   final _formKey = GlobalKey<FormState>();
   final _tituloController = TextEditingController();
   final _descricaoController = TextEditingController();
-  
+
   int _prioridade = 2; // Prioridade média como padrão
   int _statusId = 1; // Status padrão
   DateTime _criadoEm = DateTime.now();
@@ -29,17 +32,17 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   void _salvarTask() {
     if (_formKey.currentState!.validate()) {
       // Aqui você criaria o objeto Task e salvaria
-      final task = {
-        'titulo': _tituloController.text,
-        'descricao': _descricaoController.text,
-        'statusId': _statusId,
-        'prioridade': _prioridade,
-        'criadoEm': _criadoEm,
-        // usuarioId e taskId viriam do backend/autenticação
-      };
-      
-      print('Task criada: $task');
-      
+      final task = Task(
+          usuarioId: TaskMockupList.defaultUserId,
+          taskId: TaskMockupList.getNextTaskId(),
+          titulo: _tituloController.text,
+          descricao: _descricaoController.text,
+          statusId: _statusId,
+          prioridade: _prioridade,
+          criadoEm: _criadoEm);
+
+      TaskMockupList.addTask(task);
+
       // Mostrar feedback ao usuário
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -47,9 +50,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           backgroundColor: Colors.green,
         ),
       );
-      
+
       // Voltar para tela anterior
-      context.go('/tasks');
+      context.go(Routes.tasks);
     }
   }
 
@@ -61,7 +64,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       lastDate: DateTime(2030),
       locale: const Locale('pt', 'BR'),
     );
-    
+
     if (picked != null && picked != _criadoEm) {
       setState(() {
         _criadoEm = picked;
@@ -101,7 +104,11 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     return Scaffold(
       backgroundColor: AppColors.greenWhite,
       appBar: AppBar(
-        title: Text('Nova Task', style: AppTextStyles.midText.copyWith(color: Colors.black, fontWeight: FontWeight.w400, fontSize: screenHeight * 0.025)),
+        title: Text('Nova Task',
+            style: AppTextStyles.midText.copyWith(
+                color: Colors.black,
+                fontWeight: FontWeight.w400,
+                fontSize: screenHeight * 0.025)),
         backgroundColor: AppColors.white,
         elevation: 0,
       ),
@@ -141,9 +148,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 return null;
               },
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Campo Descrição
             Text(
               'Descrição',
@@ -173,9 +180,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 return null;
               },
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Seletor de Prioridade
             Text(
               'Prioridade',
@@ -230,9 +237,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Seletor de Status
             Text(
               'Status',
@@ -267,9 +274,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 },
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Seletor de Data
             Text(
               'Data de Criação',
@@ -301,9 +308,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 32),
-            
+
             // Botão Salvar
             ElevatedButton(
               onPressed: _salvarTask,
