@@ -20,27 +20,35 @@ class MinimalistTaskCard extends StatelessWidget {
   /// Retorna o texto correspondente à prioridade da tarefa.
   String get prioridadeTexto {
     switch (task.prioridade) {
-      case 1: return 'Alta';
-      case 2: return 'Média';
-      case 3: return 'Baixa';
-      default: return 'N/A';
+      case 1:
+        return 'Alta';
+      case 2:
+        return 'Média';
+      case 3:
+        return 'Baixa';
+      default:
+        return 'N/A';
     }
   }
 
   /// Retorna a cor correspondente à prioridade da tarefa.
   Color get corPrioridade {
     switch (task.prioridade) {
-      case 1: return const Color(0xFFE53E3E);
-      case 2: return const Color(0xFFFF8C00);
-      case 3: return const Color(0xFF38A169);
-      default: return const Color(0xFF718096);
+      case 1:
+        return const Color(0xFFE53E3E);
+      case 2:
+        return const Color(0xFFFF8C00);
+      case 3:
+        return const Color(0xFF38A169);
+      default:
+        return const Color(0xFF718096);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       child: Material(
@@ -74,7 +82,7 @@ class MinimalistTaskCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
+
                   // Conteúdo principal do card
                   Expanded(
                     child: Padding(
@@ -100,19 +108,17 @@ class MinimalistTaskCard extends StatelessWidget {
                               // Ícone de status de conclusão, se fornecido
                               if (isCompleted != null)
                                 Icon(
-                                  isCompleted! 
-                                    ? Icons.check_circle_outline 
-                                    : Icons.radio_button_unchecked,
-                                  color: isCompleted! 
-                                    ? const Color(0xFF38A169) 
-                                    : const Color(0xFF718096),
+                                  isCompleted!
+                                      ? Icons.check_circle_outline
+                                      : Icons.radio_button_unchecked,
+                                  color: isCompleted!
+                                      ? const Color(0xFF38A169)
+                                      : const Color(0xFF718096),
                                   size: 20,
                                 ),
                             ],
                           ),
-                          
                           const SizedBox(height: 8),
-                          
                           Row(
                             children: [
                               // Badge de prioridade
@@ -122,7 +128,7 @@ class MinimalistTaskCard extends StatelessWidget {
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: corPrioridade.withValues(alpha:0.1),
+                                  color: corPrioridade.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
@@ -134,9 +140,9 @@ class MinimalistTaskCard extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              
+
                               const SizedBox(width: 12),
-                              
+
                               // Data de criação formatada
                               Text(
                                 _formatarData(task.criadoEm),
@@ -165,7 +171,7 @@ class MinimalistTaskCard extends StatelessWidget {
   String _formatarData(DateTime data) {
     final agora = DateTime.now();
     final diferenca = agora.difference(data);
-    
+
     if (diferenca.inDays == 0) {
       return 'Hoje';
     } else if (diferenca.inDays == 1) {
@@ -196,27 +202,35 @@ class CompactTaskCard extends StatelessWidget {
   /// Retorna a cor correspondente à prioridade da tarefa.
   Color get corPrioridade {
     switch (task.prioridade) {
-      case 1: return const Color(0xFFE53E3E);
-      case 2: return const Color(0xFFFF8C00);
-      case 3: return const Color(0xFF38A169);
-      default: return const Color(0xFF718096);
+      case 1:
+        return const Color(0xFFE53E3E);
+      case 2:
+        return const Color(0xFFFF8C00);
+      case 3:
+        return const Color(0xFF38A169);
+      default:
+        return const Color(0xFF718096);
     }
   }
 
   /// Retorna o ícone correspondente à prioridade da tarefa.
   IconData get iconePrioridade {
     switch (task.prioridade) {
-      case 1: return Icons.priority_high;
-      case 2: return Icons.remove;
-      case 3: return Icons.keyboard_arrow_down;
-      default: return Icons.help_outline;
+      case 1:
+        return Icons.priority_high;
+      case 2:
+        return Icons.remove;
+      case 3:
+        return Icons.keyboard_arrow_down;
+      default:
+        return Icons.help_outline;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       child: Material(
@@ -239,7 +253,7 @@ class CompactTaskCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: corPrioridade.withValues(alpha:0.1),
+                    color: corPrioridade.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Icon(
@@ -248,9 +262,9 @@ class CompactTaskCard extends StatelessWidget {
                     color: corPrioridade,
                   ),
                 ),
-                
+
                 const SizedBox(width: 12),
-                
+
                 // Título da tarefa e data de criação
                 Expanded(
                   child: Column(
@@ -266,9 +280,9 @@ class CompactTaskCard extends StatelessWidget {
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
-                      
+
                       const SizedBox(height: 2),
-                      
+
                       // Data de criação formatada (dia/mês)
                       Text(
                         _formatarData(task.criadoEm),
@@ -280,16 +294,16 @@ class CompactTaskCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                
+
                 // Ícone de status de conclusão, se fornecido
                 if (isCompleted != null)
                   Icon(
-                    isCompleted! 
-                      ? Icons.check_circle 
-                      : Icons.radio_button_unchecked,
-                    color: isCompleted! 
-                      ? const Color(0xFF38A169) 
-                      : const Color(0xFF718096),
+                    isCompleted!
+                        ? Icons.check_circle
+                        : Icons.radio_button_unchecked,
+                    color: isCompleted!
+                        ? const Color(0xFF38A169)
+                        : const Color(0xFF718096),
                     size: 22,
                   ),
               ],
@@ -308,6 +322,8 @@ class CompactTaskCard extends StatelessWidget {
   /// Limita o título da tarefa ao número de caracteres especificado.
   /// Adiciona "..." caso o texto seja maior que o limite.
   String _tituloLimitado(String titulo, {int limite = 40}) {
-    return titulo.length > limite ? '${titulo.substring(0, limite)}...' : titulo;
+    return titulo.length > limite
+        ? '${titulo.substring(0, limite)}...'
+        : titulo;
   }
 }

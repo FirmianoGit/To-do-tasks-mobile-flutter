@@ -1,11 +1,29 @@
+import 'package:financy_app/data/repositories/tasks/tasks_repository.dart';
 import 'package:financy_app/data/services/local/local_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import '../../data/repositories/auth/auth_repository.dart';
 import '../../data/services/api/api_client.dart';
+import '../../ui/CreateTaskView/view_model/create_task_view_model.dart';
 
 List<SingleChildWidget> _sharedProviders = [
-  // Aqui você pode colocar casos de uso que dependem de múltiplos repos
+  /// TasksRepository: Gerenciador de estado da lista de tarefas
+  /// ChangeNotifierProvider garante que qualquer widget que use este provider
+  /// será reconstruído automaticamente quando as tarefas mudarem
+  ChangeNotifierProvider(
+    create: (context) {
+      final tasksRepository = TasksRepository();
+      tasksRepository.initialize(); // Carrega as tarefas iniciais
+      return tasksRepository;
+    },
+  ),
+  
+  /// CreateTaskViewModel: ViewModel para adicionar novas tarefas
+  /// Atua como intermediário entre a View e o Repository
+  ChangeNotifierProvider(
+    create: (context) => CreateTaskViewModel(),
+  ),
+  // Aqui você pode colocar outros casos de uso que dependem de múltiplos repos
 ];
 
 /// Dependências para ambiente remoto
@@ -16,7 +34,7 @@ List<SingleChildWidget> get providersRemote {
     ChangeNotifierProvider(
       create: (context) =>
           AuthRepository(apiClient: context.read()),
-          
+
     ),
     ..._sharedProviders,
   ];

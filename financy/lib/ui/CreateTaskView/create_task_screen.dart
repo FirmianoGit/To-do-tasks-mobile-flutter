@@ -3,8 +3,8 @@ import 'package:financy_app/mock/mock.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:financy_app/routing/routes.dart';
+import 'package:provider/provider.dart';
+import 'package:financy_app/ui/CreateTaskView/view_model/create_task_view_model.dart';
 
 class CreateTaskScreen extends StatefulWidget {
   const CreateTaskScreen({super.key});
@@ -31,17 +31,18 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
   void _salvarTask() {
     if (_formKey.currentState!.validate()) {
-      // Aqui você criaria o objeto Task e salvaria
       final task = Task(
-          usuarioId: TaskMockupList.defaultUserId,
-          taskId: TaskMockupList.getNextTaskId(),
-          titulo: _tituloController.text,
-          descricao: _descricaoController.text,
-          statusId: _statusId,
-          prioridade: _prioridade,
-          criadoEm: _criadoEm);
+        usuarioId: TaskMockupList.defaultUserId,
+        taskId: TaskMockupList.getNextTaskId(),
+        titulo: _tituloController.text,
+        descricao: _descricaoController.text,
+        statusId: _statusId,
+        prioridade: _prioridade,
+        criadoEm: _criadoEm,
+      );
 
-      TaskMockupList.addTask(task);
+      // Chamar o ViewModel para adicionar a tarefa
+      CreateTaskViewModel().adicionarTarefa(context, task);
 
       // Mostrar feedback ao usuário
       ScaffoldMessenger.of(context).showSnackBar(
@@ -51,8 +52,12 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         ),
       );
 
-      // Voltar para tela anterior
-      context.go(Routes.tasks);
+      // Limpar formulário
+      _tituloController.clear();
+      _descricaoController.clear();
+      _prioridade = 2;
+      _statusId = 1;
+      _criadoEm = DateTime.now();
     }
   }
 

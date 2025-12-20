@@ -1,5 +1,5 @@
 
-import 'package:financy_app/ui/TasksView/widget/Tastks_filter/selectable_task_button.dart';
+import 'package:financy_app/ui/TasksView/widget/Tasks_filter/selectable_task_button.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -181,9 +181,8 @@ class ImprovedFiltersRowSimple extends StatelessWidget {
         ),
       ],
       onFilterChanged: (filterKey, isSelected) {
-        // Implementar lógica de filtro aqui
+        // TODO:Implementar lógica de filtro aqui
         // Exemplo: atualizar estado, filtrar lista, etc.
-        print('Filtro $filterKey: $isSelected');
       },
     );
   }

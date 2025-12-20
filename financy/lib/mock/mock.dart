@@ -206,6 +206,7 @@ class TaskMockupList {
   static bool addTask(Task newTask) {
     _initializeMockTasks();
     _tasks.add(newTask);
+    print('Task adicionada: ${newTask.taskId}, quantidade total: ${getTaskCount()}');
     return true;
   }
 
