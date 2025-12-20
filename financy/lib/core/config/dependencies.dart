@@ -1,3 +1,4 @@
+import 'package:financy_app/core/State/app_loading_controller.dart';
 import 'package:financy_app/data/repositories/tasks/tasks_repository.dart';
 import 'package:financy_app/data/services/local/local_storage.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,11 @@ List<SingleChildWidget> _sharedProviders = [
     create: (context) => CreateTaskViewModel(),
   ),
   // Aqui você pode colocar outros casos de uso que dependem de múltiplos repos
+
+  ChangeNotifierProvider(
+    create: (context) => AppLoadingController(),
+  ),
+  
 ];
 
 /// Dependências para ambiente remoto
