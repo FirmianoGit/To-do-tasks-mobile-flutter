@@ -357,11 +357,11 @@ class _ImprovedTasksScreenTopState extends State<ImprovedTasksScreenTop> {
                           height: avatarSize.clamp(40.0, 50.0),
                           decoration: BoxDecoration(
                             color:
-                                AppColors.greenLightTwo.withValues(alpha: 0.2),
+                                AppColors.green.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(
                                 avatarSize.clamp(40.0, 50.0) / 2),
                             border: Border.all(
-                              color: AppColors.greenLightTwo
+                              color: AppColors.green
                                   .withValues(alpha: 0.3),
                               width: 2,
                             ),

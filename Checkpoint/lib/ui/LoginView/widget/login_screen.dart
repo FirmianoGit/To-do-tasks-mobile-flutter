@@ -108,7 +108,22 @@ class _LoginPageContentState extends State<_LoginPageContent> {
                         ],
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.02),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          // TODO: rota para recuperação de senha
+                        },
+                        child: Text(
+                          'Esqueci minha senha',
+                          style: AppTextStyles.thinText.copyWith(
+                            color: AppColors.green,
+                            decoration: TextDecoration.underline,
+                            decorationColor: AppColors.green,
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       width: screenWidth,
                       child: ElevatedButton(
