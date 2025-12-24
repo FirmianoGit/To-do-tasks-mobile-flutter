@@ -18,7 +18,7 @@ List<SingleChildWidget> _sharedProviders = [
       return tasksRepository;
     },
   ),
-  
+
   /// CreateTaskViewModel: ViewModel para adicionar novas tarefas
   /// Atua como intermediário entre a View e o Repository
   ChangeNotifierProvider(
@@ -29,7 +29,6 @@ List<SingleChildWidget> _sharedProviders = [
   ChangeNotifierProvider(
     create: (context) => AppLoadingController(),
   ),
-  
 ];
 
 /// Dependências para ambiente remoto
@@ -38,9 +37,7 @@ List<SingleChildWidget> get providersRemote {
     Provider(create: (_) => ApiClient()),
     Provider(create: (_) => LocalStorage()),
     ChangeNotifierProvider(
-      create: (context) =>
-          AuthRepository(apiClient: context.read()),
-
+      create: (context) => AuthRepository(apiClient: context.read()),
     ),
     ..._sharedProviders,
   ];

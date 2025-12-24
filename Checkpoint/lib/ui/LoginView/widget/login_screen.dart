@@ -141,7 +141,84 @@ class _LoginPageContentState extends State<_LoginPageContent> {
                             loading.hide();
                           }
                         },
-                        child: const Text('Continuar'),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: AppColors.white,
+                          padding: const EdgeInsets.all(12),
+                          backgroundColor: AppColors.green,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                        ),
+                        child: Text(
+                          'Continuar',
+                          style: AppTextStyles.buttonText
+                              .copyWith(color: AppColors.white, fontSize: 18),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    // Divisor "ou"
+                    Row(
+                      children: [
+                        Expanded(child: Divider(color: Colors.grey[400])),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            'ou',
+                            style: AppTextStyles.thinText
+                                .copyWith(color: Colors.grey[600]),
+                          ),
+                        ),
+                        Expanded(child: Divider(color: Colors.grey[400])),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: screenWidth,
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          context.go(Routes.createAcount);
+                        },
+                        icon: Icon(
+                          Icons.email_outlined,
+                          color: AppColors.greenLightTwo,
+                          size: 24,
+                        ),
+                        label: Text(
+                          'Continuar com E-mail',
+                          style: AppTextStyles.buttonText
+                              .copyWith(color: Colors.black, fontSize: 16),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.all(12),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          side: BorderSide(color: Colors.grey[400]!),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: screenWidth,
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          // TODO: lógica para login com Google
+                        },
+                        icon: Image.asset(
+                          'assets/images/google_logo.png',
+                          height: 24,
+                          width: 24,
+                        ),
+                        label: Text(
+                          'Continuar com o Google',
+                          style: AppTextStyles.buttonText
+                              .copyWith(color: Colors.black, fontSize: 16),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.all(12),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          side: BorderSide(color: Colors.grey[400]!),
+                        ),
                       ),
                     ),
                   ],
