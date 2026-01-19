@@ -39,7 +39,6 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<bool> login({required String email, required String senha}) async {
     _setLoading(true);
-    await Future.delayed(const Duration(seconds: 2));
     _setErrorMessage(null);
 
     try {

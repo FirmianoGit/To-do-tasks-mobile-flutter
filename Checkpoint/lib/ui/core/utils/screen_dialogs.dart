@@ -20,3 +20,22 @@ void showQuickErrorAlert({
     borderRadius: 10,
   );
 }
+
+void showQuickSuccessAlert({
+  required BuildContext context,
+  String title = 'Prontinho!',
+  String text = 'Processamento realizado com sucesso.',
+  String confirmBtnText = 'OK',
+  VoidCallback? onConfirmBtnTap,
+}) {
+  QuickAlert.show(
+    context: context,
+    type: QuickAlertType.success,
+    title: title,
+    text: text,
+    confirmBtnText: confirmBtnText,
+    onConfirmBtnTap: onConfirmBtnTap,
+    confirmBtnColor: AppColors.green,
+    borderRadius: 10,
+  );
+}

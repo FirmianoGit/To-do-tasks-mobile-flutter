@@ -28,7 +28,6 @@ class CreateAccountViewModel extends ChangeNotifier {
     required String senha,
   }) async {
     _setLoading(true);
-    await Future.delayed(const Duration(seconds: 2));
     _setErrorMessage(null);
 
     try {

@@ -1,6 +1,6 @@
 import 'package:financy_app/app.dart';
 import 'package:financy_app/data/repositories/auth/auth_repository.dart';
-import 'package:financy_app/data/services/local/local_storage.dart';
+import 'package:financy_app/data/services/local_storage/local_storage.dart';
 import 'package:financy_app/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

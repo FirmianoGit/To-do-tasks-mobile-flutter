@@ -1,7 +1,7 @@
 import 'package:financy_app/core/exceptions/exceptions.dart';
 import 'package:financy_app/data/repositories/auth/auth_repository_interface.dart';
 import 'package:financy_app/data/services/api/api_client.dart';
-import 'package:financy_app/data/services/local/local_storage.dart';
+import 'package:financy_app/data/services/local_storage/local_storage.dart';
 import 'package:financy_app/domain/models/users/users.dart';
 
 /// Repositório responsável por isolar a lógica de autenticação da camada de dados.

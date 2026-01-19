@@ -1,3 +1,4 @@
+import 'package:financy_app/core/State/app_loading_controller.dart';
 import 'package:financy_app/domain/models/tasks/tasks.dart';
 import 'package:financy_app/mock/mock.dart';
 import 'package:financy_app/routing/routes.dart';
@@ -5,8 +6,10 @@ import 'package:financy_app/ui/CreateTaskView/view_model/create_task_view_model.
 import 'package:financy_app/ui/CreateTaskView/widget/task_input_decoration.dart';
 import 'package:financy_app/ui/core/theme/app_colors.dart';
 import 'package:financy_app/ui/core/theme/app_text_styles.dart';
+import 'package:financy_app/ui/core/utils/screen_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class CreateTaskScreen extends StatefulWidget {
   const CreateTaskScreen({super.key});
@@ -31,7 +34,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     super.dispose();
   }
 
-  void _salvarTask() {
+  void _salvarTask() async {
+    final loading = context.read<AppLoadingController>();
+    loading.show();
     if (_formKey.currentState!.validate()) {
       final task = Task(
         usuarioId: TaskMockupList.defaultUserId,
@@ -44,15 +49,39 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       );
 
       // Chamar o ViewModel para adicionar a tarefa
-      CreateTaskViewModel().adicionarTarefa(context, task);
+      final taskCreated =
+          await CreateTaskViewModel().adicionarTarefa(context, task);
+
+      if (!taskCreated && context.mounted) {
+        // Tratar erro na criação da tarefa
+        // Exibir mensagem de erro ao usuário
+        showQuickErrorAlert(
+          context: context,
+          title: 'Erro',
+          text: 'Não foi possível criar a task. Tente novamente.',
+        );
+        loading.hide();
+        return;
+      }
+      showQuickSuccessAlert(
+        context: context,
+        title: 'Sucesso!',
+        text: 'Task criada com sucesso.',
+        onConfirmBtnTap: () {
+          FocusManager.instance.primaryFocus?.unfocus(); // 👈 chave
+          Navigator.of(context, rootNavigator: true).pop();
+          context.go(Routes.tasks);
+        },
+      );
 
       // Mostrar feedback ao usuário
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Task criada com sucesso!'),
-          backgroundColor: Colors.green,
-        ),
-      );
+
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text('Task criada com sucesso!'),
+      //     backgroundColor: Colors.green,
+      //   ),
+      // );
 
       // Limpar formulário
       _tituloController.clear();
@@ -61,6 +90,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       _statusId = 1;
       _criadoEm = DateTime.now();
     }
+    loading.hide();
   }
 
   Future<void> _selecionarData() async {
@@ -122,7 +152,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         ),
         const SizedBox(height: 8),
         child,
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -152,7 +182,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   'Nova Task',
                   style: AppTextStyles.midText.copyWith(
                     color: AppColors.greenLightTwo,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
                   ),
                 ),
               ],
@@ -204,7 +235,10 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   formSection(
                     title: 'Prioridade',
                     child: Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -225,7 +259,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                               _getPrioridadeLabel(_prioridade),
                               style: AppTextStyles.midText.copyWith(
                                 fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                                fontSize: 14,
                                 color: _getPrioridadeColor(_prioridade),
                               ),
                             ),
@@ -269,7 +303,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
                   // DATA
                   formSection(
-                    title: 'Data de Criação',
+                    title: 'Data de inicio',
                     child: InkWell(
                       onTap: _selecionarData,
                       borderRadius: BorderRadius.circular(12),
@@ -301,7 +335,10 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       onPressed: _salvarTask,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.green,
-                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -311,7 +348,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                         children: [
                           Icon(Icons.check_circle_outline,
                               color: AppColors.white),
-                              SizedBox(width: 4),
+                          SizedBox(width: 4),
                           Text(
                             'Criar Task',
                             style: AppTextStyles.midText.copyWith(

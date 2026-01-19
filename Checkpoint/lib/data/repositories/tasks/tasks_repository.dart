@@ -32,7 +32,7 @@ class TasksRepository extends ChangeNotifier {
   ///   - task: A tarefa a ser adicionada
   ///
   /// Retorna true se adicionada com sucesso
-  bool addTask(Task task) {
+  Future<bool> addTask(Task task) async {
     _tasks.add(task);
     notifyListeners();
     return true;

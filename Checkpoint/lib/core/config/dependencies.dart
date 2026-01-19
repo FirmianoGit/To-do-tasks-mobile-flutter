@@ -1,6 +1,7 @@
 import 'package:financy_app/core/State/app_loading_controller.dart';
 import 'package:financy_app/data/repositories/tasks/tasks_repository.dart';
-import 'package:financy_app/data/services/local/local_storage.dart';
+import 'package:financy_app/data/services/local_notifications/local_notifications.dart';
+import 'package:financy_app/data/services/local_storage/local_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import '../../data/repositories/auth/auth_repository.dart';
@@ -36,6 +37,11 @@ List<SingleChildWidget> get providersRemote {
   return [
     Provider(create: (_) => ApiClient()),
     Provider(create: (_) => LocalStorage()),
+    Provider(create: (_) {
+      final localNotificationService = NotificationService();
+      localNotificationService.initializeNotifications();
+      return localNotificationService;
+    }),
     ChangeNotifierProvider(
       create: (context) => AuthRepository(apiClient: context.read()),
     ),
