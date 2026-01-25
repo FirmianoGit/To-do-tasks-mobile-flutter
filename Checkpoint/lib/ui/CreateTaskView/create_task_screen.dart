@@ -44,7 +44,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         titulo: _tituloController.text,
         descricao: _descricaoController.text,
         statusId: _statusId,
-        prioridade: _prioridade,
+        prioridade: (3 - _prioridade) + 1,
         criadoEm: _criadoEm,
       );
 
@@ -67,12 +67,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         context: context,
         title: 'Sucesso!',
         text: 'Task criada com sucesso.',
-        onConfirmBtnTap: () {
-          FocusManager.instance.primaryFocus?.unfocus(); // 👈 chave
-          Navigator.of(context, rootNavigator: true).pop();
-          context.go(Routes.tasks);
-        },
       );
+      context.go(Routes.tasks);
 
       // Mostrar feedback ao usuário
 
@@ -108,6 +104,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       });
     }
   }
+
 
   String _getPrioridadeLabel(int prioridade) {
     switch (prioridade) {

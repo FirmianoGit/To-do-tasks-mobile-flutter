@@ -25,7 +25,7 @@ class WelcomeButton extends StatelessWidget {
       splashColor: Colors.white.withValues(alpha:0.3),
       child: Ink(
         decoration: BoxDecoration(
-          color: AppColors.greenLightTwo,
+          color: AppColors.green,
           borderRadius: BorderRadius.circular(10),
         ),
         height: screenHeight * 0.06, // altura responsiva (ex: 8% da tela)

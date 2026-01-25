@@ -4,7 +4,7 @@ import 'package:financy_app/ui/core/theme/app_text_styles.dart';
 
 /// Widget que representa um card de tarefa individual na lista.
 /// Exibe informações como prioridade, título, data de criação e status de conclusão.
-/// 
+///
 /// Manutenção:
 /// - Para alterar o layout do card, edite o método build.
 /// - Para mudar a lógica de exibição de prioridade, altere os getters: prioridadeTexto, corPrioridade, iconePrioridade.
@@ -67,7 +67,7 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    
+
     // Tamanhos de fonte ajustados conforme o tamanho da tela
     final tituloFontSize = screenWidth * 0.048; // Título maior
     final dataFontSize = screenWidth * 0.035; // Data menor
@@ -81,8 +81,10 @@ class TaskCard extends StatelessWidget {
         child: InkWell(
           onTap: onTap, // Callback ao clicar no card
           borderRadius: BorderRadius.circular(12),
-          splashColor: corPrioridade.withValues(alpha: 0.1), // Cor do splash ao clicar
-          highlightColor: corPrioridade.withValues(alpha: 0.5), // Cor do highlight ao pressionar
+          splashColor:
+              corPrioridade.withValues(alpha: 0.1), // Cor do splash ao clicar
+          highlightColor: corPrioridade.withValues(
+              alpha: 0.5), // Cor do highlight ao pressionar
           child: Container(
             width: double.infinity,
             // Decoração do card: borda, sombra, etc.
@@ -94,7 +96,7 @@ class TaskCard extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha:0.04),
+                  color: Colors.black.withValues(alpha: 0.04),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -114,10 +116,10 @@ class TaskCard extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: corPrioridade.withValues(alpha:0.1),
+                        color: corPrioridade.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: corPrioridade.withValues(alpha:0.3),
+                          color: corPrioridade.withValues(alpha: 0.3),
                           width: 1,
                         ),
                       ),
@@ -145,19 +147,19 @@ class TaskCard extends StatelessWidget {
                     // Ícone de status de conclusão (se fornecido)
                     if (isCompleted != null)
                       Icon(
-                        isCompleted! 
-                          ? Icons.check_circle 
-                          : Icons.radio_button_unchecked,
-                        color: isCompleted! 
-                          ? const Color(0xFF38A169) 
-                          : const Color(0xFF718096),
+                        isCompleted!
+                            ? Icons.check_circle
+                            : Icons.radio_button_unchecked,
+                        color: isCompleted!
+                            ? const Color(0xFF38A169)
+                            : const Color(0xFF718096),
                         size: 20,
                       ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 12),
-                
+
                 // Título da tarefa (limitado em tamanho e linhas)
                 Text(
                   _tituloLimitado(task.titulo),
@@ -170,9 +172,9 @@ class TaskCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                
+
                 const SizedBox(height: 8),
-                
+
                 // Linha inferior: data de criação da tarefa
                 Row(
                   children: [
@@ -204,7 +206,7 @@ class TaskCard extends StatelessWidget {
   String _formatarData(DateTime data) {
     final agora = DateTime.now();
     final diferenca = agora.difference(data);
-    
+
     if (diferenca.inDays == 0) {
       return 'Hoje';
     } else if (diferenca.inDays == 1) {
@@ -219,6 +221,8 @@ class TaskCard extends StatelessWidget {
   /// Limita o tamanho do título da tarefa para evitar overflow visual.
   /// Se o título for maior que [limite], adiciona reticências.
   String _tituloLimitado(String titulo, {int limite = 60}) {
-    return titulo.length > limite ? '${titulo.substring(0, limite)}...' : titulo;
+    return titulo.length > limite
+        ? '${titulo.substring(0, limite)}...'
+        : titulo;
   }
 }

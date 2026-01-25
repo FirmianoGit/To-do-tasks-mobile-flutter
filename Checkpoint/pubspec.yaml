@@ -57,6 +57,7 @@ flutter:
     - assets/images/woman.png
     - assets/fonts/Quicksand-Regular.ttf
     - assets/images/unifagoc_logo.png
+    - assets/images/NotificationIcon.png
     - assets/images/man.png
     - assets/fonts/Quicksand-Light.ttf
     - assets/fonts/Quicksand-Bold.ttf

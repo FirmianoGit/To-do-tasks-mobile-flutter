@@ -14,7 +14,7 @@ class NotificationService {
       tzdata.initializeTimeZones();
 
       const AndroidInitializationSettings androidSettings =
-          AndroidInitializationSettings('@mipmap/ic_launcher');
+          AndroidInitializationSettings('notification_icon');
 
       final DarwinInitializationSettings iosSettings =
           DarwinInitializationSettings(
